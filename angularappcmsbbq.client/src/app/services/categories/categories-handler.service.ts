@@ -21,9 +21,24 @@ export class CategoriesHandlerService {
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
+  searchFormControl = new FormControl('');
+
   category!: Category;
   categories: Category[] = [];
   loadingElements: boolean = false; 
+
+
+  searchResultInformationStyle: any = {
+    'display': 'none'
+  }
+
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
+
 
   constructor(
     private categoriesService: CategoriesService,
@@ -38,7 +53,18 @@ export class CategoriesHandlerService {
   public initializeDataSource(paginator: MatPaginator, sort: MatSort): void {
     this.dataSource.paginator = paginator;
     this.dataSource.sort = sort;
+
     this.getAll();
+
+    // czyszczenie kontrolki wyszukującej po odświeżeniu strony z wpisanego tekstu
+    if (this.searchFormControl.dirty) {
+      this.dataSource.filter = '';
+      this.searchFormControl.setValue('');
+    }
+
+    this.searchResultInformationStyle = {
+      'display': 'none'
+    };
   }
   
 
@@ -60,7 +86,7 @@ export class CategoriesHandlerService {
               'display': 'none',
               'font-size': '30px',
               'border': '30px solid orange'
-            } 
+            };
 
           } else {
 
@@ -68,7 +94,7 @@ export class CategoriesHandlerService {
               'display': 'block',
               'font-size': '20px',
               'border': '30px solid navy'
-            }
+            };
 
           }
 
@@ -207,18 +233,6 @@ export class CategoriesHandlerService {
 
 
 
-  errorStyle: any = {
-    'display': 'none'
-  }
-
-
-  firstPositionStyle: any = {
-    'display': 'none',
-    'font-size': '30px',
-    'border': '30px solid orange'
-  }
-
-
 
   public searchFilter(event: Event) {
     this.loadingElements = true;
@@ -231,13 +245,13 @@ export class CategoriesHandlerService {
 
 
     if (this.dataSource.filteredData.length == 0) {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'block'
-      }
+      };
     } else {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'none'
-      }
+      };
     }
 
 

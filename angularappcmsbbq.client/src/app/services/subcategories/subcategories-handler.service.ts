@@ -8,7 +8,7 @@ import { SnackBarService } from '../snack-bar.service';
 import { TaskResult } from '../../models/taskResult';
 import { Observable } from 'rxjs';
 import { Category } from '../../models/category';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { GuidGenerator } from '../guid-generator';
 import { InfoService } from '../InfoService';
 
@@ -23,6 +23,7 @@ export class SubcategoriesHandlerService {
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
+  searchFormControl = new FormControl('');
 
 
   subcategory!: Subcategory;
@@ -32,6 +33,18 @@ export class SubcategoriesHandlerService {
 
   isLoadingTableElements: boolean = false;
   tablaZaladowana: boolean = false;
+
+  searchResultInformationStyle: any = {
+    'display': 'none'
+  }
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
+
+
 
   constructor(
     private subcategoriesService: SubcategoriesService,
@@ -46,7 +59,18 @@ export class SubcategoriesHandlerService {
   public initializeDataSource(paginator: MatPaginator, sort: MatSort): void {
     this.dataSource.paginator = paginator;
     this.dataSource.sort = sort;
+
     this.getAll();
+
+    // czyszczenie kontrolki wyszukującej po odświeżeniu strony z wpisanego tekstu
+    if (this.searchFormControl.dirty) {
+      this.dataSource.filter = '';
+      this.searchFormControl.setValue('');
+    }
+
+    this.searchResultInformationStyle = {
+      'display': 'none'
+    };
   }
 
 
@@ -67,7 +91,7 @@ export class SubcategoriesHandlerService {
               'display': 'none',
               'font-size': '30px',
               'border': '30px solid orange'
-            }
+            };
 
           } else {
             this.displayErrorMessage = true;
@@ -76,7 +100,7 @@ export class SubcategoriesHandlerService {
               'display': 'block',
               'font-size': '20px',
               'border': '30px solid navy'
-            }
+            };
 
           }
 
@@ -219,16 +243,6 @@ export class SubcategoriesHandlerService {
 
 
 
-  errorStyle: any = {
-    'display': 'none'
-  }
-
-
-  firstPositionStyle: any = {
-    'display': 'none',
-    'font-size': '30px',
-    'border': '30px solid orange'
-  }
 
 
   public searchFilter(event: Event) {
@@ -241,13 +255,13 @@ export class SubcategoriesHandlerService {
     }
 
     if (this.dataSource.filteredData.length == 0) {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'block'
-      }
+      };
     } else {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'none'
-      }
+      };
     }
 
     this.loadingElements = false;

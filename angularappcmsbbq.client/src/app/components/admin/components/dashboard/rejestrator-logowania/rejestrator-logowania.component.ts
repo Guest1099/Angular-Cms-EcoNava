@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RejestratorLogowania } from '../../../../../models/rejestratorLogowania';
 import { RejestratorLogowaniaHandlerService } from '../../../../../services/rejestratorLogowania/rejestrator-logowania-handler.service';
 import { RejestratorLogowaniaDeleteComponent } from './rejestrator-logowania-delete/rejestrator-logowania-delete.component';
+import { TablePageCounterService } from '../../../../../services/table-page-counter.service';
 
 @Component({
   selector: 'app-rejestrator-logowania',
@@ -21,6 +22,7 @@ export class RejestratorLogowaniaComponent implements OnInit, AfterViewInit {
   constructor(
     public accountService: AccountHandlerService,
     public rejestratorLogowaniaService: RejestratorLogowaniaHandlerService,
+    public tablePageCounterService: TablePageCounterService,
     private dialog: MatDialog
   ) { }
 
@@ -39,18 +41,6 @@ export class RejestratorLogowaniaComponent implements OnInit, AfterViewInit {
     });
     openRef.afterClosed().subscribe();
   }
-
-
-  currentPageIndex: number = 0;
-  pageSize: number = 5;
-  onPageChange(event: PageEvent): void {
-    this.currentPageIndex = event.pageIndex;
-  }
-
-  getIndex(index: number): number {
-    return this.currentPageIndex * this.pageSize + index + 1;
-  }
-
 
 
 }

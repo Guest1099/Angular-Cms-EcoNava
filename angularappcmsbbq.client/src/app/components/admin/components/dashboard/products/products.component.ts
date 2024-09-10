@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Product } from '../../../../../models/product';
 import { ProductDeleteComponent } from './product-delete/product-delete.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TablePageCounterService } from '../../../../../services/table-page-counter.service';
 
 @Component({
   selector: 'app-products',
@@ -23,6 +24,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     public productsService: ProductsHandlerService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
+    public tablePageCounterService: TablePageCounterService,
     private router: Router
   ) { }
 
@@ -34,15 +36,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   }
 
 
-
-  openDialogDelete(product: Product): void {
-    let openRef = this.dialog.open(ProductDeleteComponent, {
-      data: product
-    });
-    openRef.afterClosed().subscribe();
-  }
-
-
   takeText(text: string, length: number): string {
     if (text.length > length) {
       return text.substring(0, length);
@@ -51,15 +44,14 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  currentPageIndex: number = 0;
-  pageSize: number = 5;
-  onPageChange(event: PageEvent): void {
-    this.currentPageIndex = event.pageIndex;
+
+
+  openDialogDelete(product: Product): void {
+    let openRef = this.dialog.open(ProductDeleteComponent, {
+      data: product
+    });
+    openRef.afterClosed().subscribe();
   }
 
-  getIndex(index: number): number {
-    return this.currentPageIndex * this.pageSize + index + 1;
-  }
-  
 
 }

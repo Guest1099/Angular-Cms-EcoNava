@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { SubsubcategoriesService } from './subsubcategories.service';
 import { SnackBarService } from '../snack-bar.service';
 import { TaskResult } from '../../models/taskResult';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { GuidGenerator } from '../guid-generator';
 import { Category } from '../../models/category';
 import { InfoService } from '../InfoService';
@@ -23,9 +23,22 @@ export class SubsubcategoriesHandlerService {
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
+  searchFormControl = new FormControl('');
+
   subsubcategory !: Subsubcategory;
   subsubcategories: Subsubcategory[] = [];
   loadingElements: boolean = false;
+
+
+  searchResultInformationStyle: any = {
+    'display': 'none'
+  }
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
 
 
   constructor(
@@ -40,7 +53,18 @@ export class SubsubcategoriesHandlerService {
   public initializeDataSource(paginator: MatPaginator, sort: MatSort): void {
     this.dataSource.paginator = paginator;
     this.dataSource.sort = sort;
+
     this.getAll();
+
+    // czyszczenie kontrolki wyszukującej po odświeżeniu strony z wpisanego tekstu
+    if (this.searchFormControl.dirty) {
+      this.dataSource.filter = '';
+      this.searchFormControl.setValue('');
+    }
+
+    this.searchResultInformationStyle = {
+      'display': 'none'
+    };
   }
 
   showMessage: boolean = false;
@@ -63,7 +87,7 @@ export class SubsubcategoriesHandlerService {
               'display': 'none',
               'font-size': '30px',
               'border': '30px solid orange'
-            }
+            };
 
           } else {
 
@@ -71,7 +95,7 @@ export class SubsubcategoriesHandlerService {
               'display': 'block',
               'font-size': '20px',
               'border': '30px solid navy'
-            }
+            };
 
           }
 
@@ -216,16 +240,7 @@ export class SubsubcategoriesHandlerService {
 
 
 
-  errorStyle: any = {
-    'display': 'none'
-  }
 
-
-  firstPositionStyle: any = {
-    'display': 'none',
-    'font-size': '30px',
-    'border': '30px solid orange'
-  }
 
   public searchFilter(event: Event) {
     this.loadingElements = true;
@@ -237,13 +252,13 @@ export class SubsubcategoriesHandlerService {
     }
 
     if (this.dataSource.filteredData.length == 0) {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'block'
-      }
+      };
     } else {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'none'
-      }
+      };
     }
 
     this.loadingElements = false;

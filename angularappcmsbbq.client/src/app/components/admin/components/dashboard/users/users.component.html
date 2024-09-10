@@ -14,7 +14,7 @@
                 <!-- wyszukiwarka -->
                 <mat-form-field appearance="outline" class="w-300px">
                     <mat-label>Wyszukiwarka</mat-label>
-                    <input matInput (keyup)="usersService.searchFilter($event)" placeholder="szukana fraza...">
+                    <input matInput [formControl]="usersService.searchFormControl" (keyup)="usersService.searchFilter($event)" placeholder="szukana fraza...">
                     <mat-icon matSuffix>search</mat-icon>
                 </mat-form-field>
             </div>
@@ -27,7 +27,7 @@
 
             <ng-container matColumnDef="lp">
                 <th mat-header-cell *matHeaderCellDef>Lp</th>
-                <td mat-cell *matCellDef="let element; let i = index" class="w-50px">{{ getIndex(i) }}</td>
+                <td mat-cell *matCellDef="let element; let i = index" class="w-50px">{{ tablePageCounterService.getIndex(i) }}</td>
             </ng-container>
 
 
@@ -80,12 +80,12 @@
 
         </table>
 
-        <mat-paginator [pageSizeOptions]="[5,10,20,30]" showFirstLastButtons (page)="onPageChange($event)" style="margin: 20px 0px; background-color: transparent;"></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[5,10,20,30]" showFirstLastButtons (page)="tablePageCounterService.onPageChange($event)" style="margin: 20px 0px; background-color: transparent;"></mat-paginator>
 
     </div>
 
 
-    <div [ngStyle]="usersService.errorStyle" class="tableBottomResult">
+    <div [ngStyle]="usersService.searchResultInformationStyle" class="searchResultInformation">
         <span>
             Nie znaleziono żadnych pozycji
         </span>
@@ -93,7 +93,7 @@
 
 
 
-    <div [ngStyle]="usersService.firstPositionStyle" class="tableBottomResult">
+    <div [ngStyle]="usersService.firstPositionStyle" class="firstPosition">
         <span>
             Dodaj pierwszą pozycję
         </span>

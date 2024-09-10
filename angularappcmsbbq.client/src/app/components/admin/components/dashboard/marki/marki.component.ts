@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Marka } from '../../../../../models/marka';
 import { MarkaDeleteComponent } from './marka-delete/marka-delete.component';
 import { FormControl } from '@angular/forms';
+import { TablePageCounterService } from '../../../../../services/table-page-counter.service';
 
 @Component({
   selector: 'app-marki',
@@ -17,14 +18,16 @@ export class MarkiComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  
 
   constructor(
     public accountService: AccountHandlerService,
     public markiService: MarkiHandlerService,
+    public tablePageCounterService: TablePageCounterService,
     private dialog: MatDialog
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
   }
 
   ngAfterViewInit(): void {

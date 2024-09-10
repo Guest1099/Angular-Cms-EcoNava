@@ -8,6 +8,7 @@ import { SubsubcategoriesHandlerService } from '../../../../../services/subsubca
 import { MatDialog } from '@angular/material/dialog';
 import { Subcategory } from '../../../../../models/subcategory';
 import { SubcategoryDeleteComponent } from './subcategory-delete/subcategory-delete.component';
+import { TablePageCounterService } from '../../../../../services/table-page-counter.service';
 
 @Component({
   selector: 'app-subcategories',
@@ -24,7 +25,8 @@ export class SubcategoriesComponent implements OnInit, AfterViewInit {
     public categoriesService: CategoriesHandlerService,
     public subcategoriesService: SubcategoriesHandlerService,
     public subsubcategoriesService: SubsubcategoriesHandlerService,
-    private dialog: MatDialog
+    public tablePageCounterService: TablePageCounterService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -42,16 +44,5 @@ export class SubcategoriesComponent implements OnInit, AfterViewInit {
     });
     openRef.afterClosed().subscribe();
   }
-
-  currentPageIndex: number = 0;
-  pageSize: number = 5;
-  onPageChange(event: PageEvent): void {
-    this.currentPageIndex = event.pageIndex;
-  }
-
-  getIndex(index: number): number {
-    return this.currentPageIndex * this.pageSize + index + 1;
-  }
-
 
 }

@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MarkiService } from './marki.service';
 import { SnackBarService } from '../snack-bar.service';
 import { TaskResult } from '../../models/taskResult';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { GuidGenerator } from '../guid-generator';
 import { InfoService } from '../InfoService';
 
@@ -21,9 +21,23 @@ export class MarkiHandlerService {
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
+  searchFormControl = new FormControl('');
+
   marka!: Marka;
   marki: Marka[] = [];
   loadingElements: boolean = false;
+
+
+  searchResultInformationStyle: any = {
+    'display': 'none'
+  }
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
+
 
 
   constructor(
@@ -39,7 +53,18 @@ export class MarkiHandlerService {
   public initializeDataSource(paginator: MatPaginator, sort: MatSort): void {
     this.dataSource.paginator = paginator;
     this.dataSource.sort = sort;
+
     this.getAll();
+
+    // czyszczenie kontrolki wyszukującej po odświeżeniu strony z wpisanego tekstu
+    if (this.searchFormControl.dirty) {
+      this.dataSource.filter = '';
+      this.searchFormControl.setValue('');
+    }
+
+    this.searchResultInformationStyle = {
+      'display': 'none'
+    };
   }
   
 
@@ -61,7 +86,7 @@ export class MarkiHandlerService {
               'display': 'none',
               'font-size': '30px',
               'border': '30px solid orange'
-            }
+            };
 
           } else {
 
@@ -69,7 +94,7 @@ export class MarkiHandlerService {
               'display': 'block',
               'font-size': '20px',
               'border': '30px solid navy'
-            }
+            };
 
           }
 
@@ -200,16 +225,6 @@ export class MarkiHandlerService {
 
 
 
-  errorStyle: any = {
-    'display': 'none'
-  }
-
-
-  firstPositionStyle: any = {
-    'display': 'none',
-    'font-size': '30px',
-    'border': '30px solid orange'
-  }
 
   public searchFilter(event: Event) {
     this.loadingElements = true;
@@ -221,13 +236,13 @@ export class MarkiHandlerService {
     }
 
     if (this.dataSource.filteredData.length == 0) {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'block'
-      }
+      };
     } else {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'none'
-      }
+      };
     }
 
     this.loadingElements = false;

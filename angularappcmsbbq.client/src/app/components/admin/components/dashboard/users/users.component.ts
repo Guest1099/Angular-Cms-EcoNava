@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ApplicationUser } from '../../../../../models/applicationUser';
 import { UserDeleteComponent } from './user-delete/user-delete.component';
 import { UsersHandlerService } from '../../../../../services/users/users-handler.service';
+import { TablePageCounterService } from '../../../../../services/table-page-counter.service';
 
 @Component({
   selector: 'app-users',
@@ -18,36 +19,20 @@ export class UsersComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
-  firstStyle: any;
-  secondStyle: any; 
 
   constructor(
     public accountService: AccountHandlerService,
     public usersService: UsersHandlerService,
     public roleService: RolesHandlerService,
+    public tablePageCounterService: TablePageCounterService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-
-    this.firstStyle = {
-      'font-style': 'italic',
-      'font-weight': 'bold',
-      'font-size': '20px',
-      'border': '10px solid orange'
-    }
-    this.firstStyle = {
-      'font-style': 'italic',
-      'font-weight': 'bold',
-      'font-size': '20px',
-      'border': '10px solid blue'
-    }
-
   }
 
   ngAfterViewInit(): void {
     this.usersService.initializeDataSource(this.paginator, this.sort);
-    this.roleService.getAll();
   }
 
 
@@ -58,17 +43,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
     });
     openRef.afterClosed().subscribe();
   }
-
-  currentPageIndex: number = 0;
-  pageSize: number = 5;
-  onPageChange(event: PageEvent): void {
-    this.currentPageIndex = event.pageIndex;
-  }
-
-  getIndex(index: number): number {
-    return this.currentPageIndex * this.pageSize + index + 1;
-  }
-
 
 
 

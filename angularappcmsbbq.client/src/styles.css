@@ -3935,11 +3935,17 @@ ul {
   }
 
 
+/* Top navigation ----------------------------------------------------------------------------------- */
 
+.toolBarRow {
+  background-color: navy;
+  color: white;
+  box-shadow: 0px 1px 10px rgb(150,150,150, .9);
+}
 
 /* Left navigation ----------------------------------------------------------------------------------- */
 
-.menuList { 
+.menuList {
 }
 
 .menuList button {
@@ -4014,7 +4020,9 @@ ul {
   border: 10px solid orange;
 }
 
-.tableBottomResult {
-    font-size: 25px;
+.searchResultInformation {
+  font-size: 25px;
 }
 
+.firstPosition {
+}

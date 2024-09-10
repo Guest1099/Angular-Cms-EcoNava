@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ApplicationUser } from '../../models/applicationUser';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { TaskResult } from '../../models/taskResult';
 import { GuidGenerator } from '../guid-generator';
 import { RegisterViewModel } from '../../models/registerViewModel';
@@ -29,17 +29,42 @@ export class UsersHandlerService {
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
+  searchFormControl = new FormControl('');
+
   user!: ApplicationUser;
   users: ApplicationUser[] = [];
   formGroup!: FormGroup;
   loadingElements: boolean = false;
 
 
+  searchResultInformationStyle: any = {
+    'display': 'none'
+  }
+
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
+
 
   public initializeDataSource(paginator: MatPaginator, sort: MatSort): void {
+    this.getAll();
+
     this.dataSource.paginator = paginator;
     this.dataSource.sort = sort;
-    this.getAll();
+
+    // czyszczenie kontrolki wyszukującej po odświeżeniu strony z wpisanego tekstu
+    if (this.searchFormControl.dirty) {
+      this.dataSource.filter = '';
+      this.searchFormControl.setValue('');
+    }
+
+    this.searchResultInformationStyle = {
+      'display': 'none'
+    };
+
   }
 
   showMessage: boolean = false;
@@ -62,7 +87,7 @@ export class UsersHandlerService {
               'display': 'none',
               'font-size': '30px',
               'border': '30px solid orange'
-            }
+            };
 
           } else {
 
@@ -70,7 +95,7 @@ export class UsersHandlerService {
               'display': 'block',
               'font-size': '20px',
               'border': '30px solid navy'
-            }
+            };
 
           }
 
@@ -248,19 +273,8 @@ export class UsersHandlerService {
     });
   }
 
+
   
-   
-
-  errorStyle: any = {
-    'display': 'none'
-  }
-
-
-  firstPositionStyle: any = {
-    'display': 'none',
-    'font-size': '30px',
-    'border': '30px solid orange'
-  }
 
 
   public searchFilter(event: Event) {
@@ -272,13 +286,13 @@ export class UsersHandlerService {
     }
 
     if (this.dataSource.filteredData.length == 0) {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'block'
-      }
+      };
     } else {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'none'
-      }
+      };
     }
 
   }

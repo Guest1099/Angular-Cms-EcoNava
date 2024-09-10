@@ -6,6 +6,7 @@ import { CategoriesHandlerService } from '../../../../../services/categories/cat
 import { MatDialog } from '@angular/material/dialog';
 import { Category } from '../../../../../models/category';
 import { CategoryDeleteComponent } from './category-delete/category-delete.component';
+import { TablePageCounterService } from '../../../../../services/table-page-counter.service';
 
 @Component({
   selector: 'app-categories',
@@ -20,24 +21,17 @@ export class CategoriesComponent implements OnInit, AfterViewInit {
   constructor(
     public accountService: AccountHandlerService,
     public categoriesService: CategoriesHandlerService,
+    public tablePageCounterService: TablePageCounterService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-
-    this.testStyle = {
-      'font-size': '30px',
-      'display': 'none'
-    }; 
-
   }
 
   ngAfterViewInit(): void {
     this.categoriesService.initializeDataSource(this.paginator, this.sort);
   }
-
-  public testStyle: any;
-  public testClass: any;
+   
 
 
   getText(text: string, iloscZnakow: number): string {
@@ -57,14 +51,5 @@ export class CategoriesComponent implements OnInit, AfterViewInit {
   }
 
 
-  currentPageIndex: number = 0;
-  pageSize: number = 5;
-  onPageChange(event: PageEvent): void {
-    this.currentPageIndex = event.pageIndex;
-  }
-
-  getIndex(index: number): number {
-    return this.currentPageIndex * this.pageSize + index + 1;
-  }
 
 }

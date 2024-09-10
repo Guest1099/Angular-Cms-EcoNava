@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { RolesService } from './roles.service';
 import { SnackBarService } from '../snack-bar.service';
 import { TaskResult } from '../../models/taskResult';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { GuidGenerator } from '../guid-generator';
 import { InfoService } from '../InfoService';
 
@@ -23,8 +23,20 @@ export class RolesHandlerService {
 
   private rolesMap: Map<string, string> = new Map<string, string>();
 
+  searchFormControl = new FormControl('');
+
   roles: ApplicationRole[] = [];
   loadingElements: boolean = false;
+
+  searchResultInformationStyle: any = {
+    'display': 'none'
+  }
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
 
 
   constructor(
@@ -40,7 +52,18 @@ export class RolesHandlerService {
   public initializeDataSource(paginator: MatPaginator, sort: MatSort): void {
     this.dataSource.paginator = paginator;
     this.dataSource.sort = sort;
+
     this.getAll();
+
+    // czyszczenie kontrolki wyszukującej po odświeżeniu strony z wpisanego tekstu
+    if (this.searchFormControl.dirty) {
+      this.dataSource.filter = '';
+      this.searchFormControl.setValue('');
+    }
+
+    this.searchResultInformationStyle = {
+      'display': 'none'
+    };
   }
    
 
@@ -63,7 +86,7 @@ export class RolesHandlerService {
               'display': 'none',
               'font-size': '30px',
               'border': '30px solid orange'
-            }
+            };
 
           } else {
 
@@ -71,7 +94,7 @@ export class RolesHandlerService {
               'display': 'block',
               'font-size': '20px',
               'border': '30px solid navy'
-            }
+            };
 
           }
 
@@ -191,17 +214,6 @@ export class RolesHandlerService {
 
 
 
-  errorStyle: any = {
-    'display': 'none'
-  }
-
-
-  firstPositionStyle: any = {
-    'display': 'none',
-    'font-size': '30px',
-    'border': '30px solid orange'
-  }
-
 
 
   searchFilter(event: Event) {
@@ -214,13 +226,13 @@ export class RolesHandlerService {
     }
 
     if (this.dataSource.filteredData.length == 0) {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'block'
-      }
+      };
     } else {
-      this.errorStyle = {
+      this.searchResultInformationStyle = {
         'display': 'none'
-      }
+      };
     }
 
     this.loadingElements = false;

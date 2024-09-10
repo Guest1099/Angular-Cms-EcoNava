@@ -6,6 +6,7 @@ import { RolesHandlerService } from '../../../../../services/roles/roles-handler
 import { MatDialog } from '@angular/material/dialog';
 import { ApplicationRole } from '../../../../../models/applicationRole';
 import { RoleDeleteComponent } from './role-delete/role-delete.component';
+import { TablePageCounterService } from '../../../../../services/table-page-counter.service';
 
 @Component({
   selector: 'app-roles',
@@ -21,6 +22,7 @@ export class RolesComponent implements OnInit, AfterViewInit {
   constructor(
     public accountService: AccountHandlerService,
     public rolesService: RolesHandlerService,
+    public tablePageCounterService: TablePageCounterService,
     private dialog: MatDialog
   ) { }
 
@@ -38,16 +40,6 @@ export class RolesComponent implements OnInit, AfterViewInit {
       data: role
     });
     openRef.afterClosed().subscribe();
-  }
-
-  currentPageIndex: number = 0;
-  pageSize: number = 5;
-  onPageChange(event: PageEvent): void {
-    this.currentPageIndex = event.pageIndex;
-  }
-
-  getIndex(index: number): number {
-    return this.currentPageIndex * this.pageSize + index + 1;
   }
 
 

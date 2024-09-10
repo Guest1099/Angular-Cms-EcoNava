@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { RejestratorLogowaniaService } from './rejestrator-logowania.service';
 import { SnackBarService } from '../snack-bar.service';
 import { TaskResult } from '../../models/taskResult';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { InfoService } from '../InfoService';
 
 @Injectable({
@@ -20,10 +20,23 @@ export class RejestratorLogowaniaHandlerService {
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
+  searchFormControl = new FormControl('');
+
 
   rejestratorLogowania!: RejestratorLogowania;
   rejestratorLogowan: RejestratorLogowania[] = [];
   loadingElements: boolean = false;
+
+
+  searchResultInformationStyle: any = {
+    'display': 'none'
+  }
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
 
   constructor(
     private rejestratorLogowaniaService: RejestratorLogowaniaService,
@@ -38,7 +51,19 @@ export class RejestratorLogowaniaHandlerService {
   public initializeDataSource(paginator: MatPaginator, sort: MatSort): void {
     this.dataSource.paginator = paginator;
     this.dataSource.sort = sort;
+
     this.getAll();
+
+    // czyszczenie kontrolki wyszukującej po odświeżeniu strony z wpisanego tekstu
+    if (this.searchFormControl.dirty) {
+      this.dataSource.filter = '';
+      this.searchFormControl.setValue('');
+    }
+
+    this.searchResultInformationStyle = {
+      'display': 'none'
+    };
+
   }
 
 
@@ -52,6 +77,25 @@ export class RejestratorLogowaniaHandlerService {
           this.dataSource.data = result.model as RejestratorLogowania[];
           this.rejestratorLogowan = result.model as RejestratorLogowania[];
           this.loadingElements = false;
+
+          if (this.rejestratorLogowan.length > 0) {
+
+            this.firstPositionStyle = {
+              'display': 'none',
+              'font-size': '30px',
+              'border': '30px solid orange'
+            };
+
+          } else {
+
+            this.firstPositionStyle = {
+              'display': 'block',
+              'font-size': '20px',
+              'border': '30px solid navy'
+            };
+
+          }
+
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
           this.loadingElements = false;
@@ -157,6 +201,17 @@ export class RejestratorLogowaniaHandlerService {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
+    if (this.dataSource.filteredData.length == 0) {
+      this.searchResultInformationStyle = {
+        'display': 'block'
+      };
+    } else {
+      this.searchResultInformationStyle = {
+        'display': 'none'
+      };
+    }
+
     this.loadingElements = false;
   }
 
