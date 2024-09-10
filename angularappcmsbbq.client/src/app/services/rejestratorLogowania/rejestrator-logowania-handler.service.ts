@@ -54,6 +54,7 @@ export class RejestratorLogowaniaHandlerService {
           this.loadingElements = false;
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
+          this.loadingElements = false;
         }
         return result;
       }),

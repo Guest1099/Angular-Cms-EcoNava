@@ -26,14 +26,17 @@ export class SubcategoriesHandlerService {
 
 
   subcategory!: Subcategory;
-  subcategories: Subcategory[] = [];
+  public subcategories: Subcategory[] = [];
   loadingElements: boolean = false;
+  displayErrorMessage: boolean = false;
 
+  isLoadingTableElements: boolean = false;
+  tablaZaladowana: boolean = false;
 
   constructor(
     private subcategoriesService: SubcategoriesService,
     private snackBarService: SnackBarService
-  ) { 
+  ) {
     this.getAll();
   }
 
@@ -45,7 +48,7 @@ export class SubcategoriesHandlerService {
     this.dataSource.sort = sort;
     this.getAll();
   }
-   
+
 
 
   public getAll(): void {
@@ -53,12 +56,33 @@ export class SubcategoriesHandlerService {
     this.subcategoriesService.getAll().subscribe({
       next: ((result: TaskResult<Subcategory[]>) => {
         if (result.success) {
-          // pobranie danych
+          // pobranie danych 
           this.subcategories = result.model as Subcategory[];
           this.dataSource.data = result.model as Subcategory[];
           this.loadingElements = false;
+
+          if (this.subcategories.length > 0) {
+
+            this.firstPositionStyle = {
+              'display': 'none',
+              'font-size': '30px',
+              'border': '30px solid orange'
+            }
+
+          } else {
+            this.displayErrorMessage = true;
+
+            this.firstPositionStyle = {
+              'display': 'block',
+              'font-size': '20px',
+              'border': '30px solid navy'
+            }
+
+          }
+
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
+          this.loadingElements = false;
         }
         return result;
       }),
@@ -72,9 +96,9 @@ export class SubcategoriesHandlerService {
   findCategoriesById(categoryId: string): Observable<Category[]> {
     return this.subcategoriesService.getAllByCategoryId(categoryId);
   }
- 
 
-  
+
+
 
   public get(id: any): void {
     this.loadingElements = true;
@@ -195,6 +219,17 @@ export class SubcategoriesHandlerService {
 
 
 
+  errorStyle: any = {
+    'display': 'none'
+  }
+
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
+
 
   public searchFilter(event: Event) {
     this.loadingElements = true;
@@ -204,6 +239,17 @@ export class SubcategoriesHandlerService {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
+    if (this.dataSource.filteredData.length == 0) {
+      this.errorStyle = {
+        'display': 'block'
+      }
+    } else {
+      this.errorStyle = {
+        'display': 'none'
+      }
+    }
+
     this.loadingElements = false;
   }
 

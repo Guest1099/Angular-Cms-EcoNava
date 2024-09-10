@@ -18,6 +18,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
+  firstStyle: any;
+  secondStyle: any; 
+
   constructor(
     public accountService: AccountHandlerService,
     public usersService: UsersHandlerService,
@@ -26,7 +29,20 @@ export class UsersComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    //alert(this.usersService.users.length);
+
+    this.firstStyle = {
+      'font-style': 'italic',
+      'font-weight': 'bold',
+      'font-size': '20px',
+      'border': '10px solid orange'
+    }
+    this.firstStyle = {
+      'font-style': 'italic',
+      'font-weight': 'bold',
+      'font-size': '20px',
+      'border': '10px solid blue'
+    }
+
   }
 
   ngAfterViewInit(): void {
@@ -52,5 +68,8 @@ export class UsersComponent implements OnInit, AfterViewInit {
   getIndex(index: number): number {
     return this.currentPageIndex * this.pageSize + index + 1;
   }
+
+
+
 
 }

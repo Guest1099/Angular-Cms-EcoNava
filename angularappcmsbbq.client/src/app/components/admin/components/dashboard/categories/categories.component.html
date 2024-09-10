@@ -8,7 +8,7 @@
             <mat-icon>add</mat-icon>
             Create new
         </button>
-      
+
         <div>
             <!-- wyszukiwarka -->
             <div class="search-container">
@@ -22,18 +22,8 @@
     </div>
 
 
-    <!--
-        <div *ngIf="categoriesService.dataSource.data.length <= 0" class="centerx mt-100">
-            <mat-spinner diameter="32" *ngIf="categoriesService.dataSource.data.length <= 0" class="spinner"></mat-spinner>
-        </div>
 
-
-        <div *ngIf="categoriesService.dataSource.data.length >= 0">
-     -->
-    <!-- jeżeli jest większa ilość obiektów wyświetl tabelę -->
-
-
-    <div *ngIf="categoriesService.dataSource.filteredData.length > 0">
+    <div [ngClass]="categoriesService.categories.length > 0 && categoriesService.dataSource.filteredData.length > 0  ? 'showTable' : 'hideTable'">
         <table mat-table [dataSource]="categoriesService.dataSource" matSort class="mat-elevation-z1 table">
 
             <ng-container matColumnDef="lp">
@@ -74,10 +64,19 @@
     </div>
 
 
-    <div *ngIf="categoriesService.dataSource.filteredData.length <= 0">
-        <h4>
+
+    <div [ngStyle]="categoriesService.errorStyle" class="tableBottomResult">
+        <span>
             Nie znaleziono żadnych pozycji
-        </h4>
+        </span>
+    </div>
+
+
+
+    <div [ngStyle]="categoriesService.firstPositionStyle" class="tableBottomResult">
+        <span>
+            Dodaj pierwszą pozycję
+        </span>
     </div>
 
 

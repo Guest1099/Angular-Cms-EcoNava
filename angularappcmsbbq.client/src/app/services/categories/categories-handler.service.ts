@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { CategoriesService } from './categories.service';
 import { SnackBarService } from '../snack-bar.service';
 import { TaskResult } from '../../models/taskResult';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { GuidGenerator } from '../guid-generator';
 import { InfoService } from '../InfoService';
 
@@ -20,7 +20,6 @@ export class CategoriesHandlerService {
 
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
-
 
   category!: Category;
   categories: Category[] = [];
@@ -53,8 +52,29 @@ export class CategoriesHandlerService {
           this.categories = result.model as Category[];
           this.dataSource.data = result.model as Category[];
           this.loadingElements = false;
+
+
+          if (this.categories.length > 0) {
+
+            this.firstPositionStyle = {
+              'display': 'none',
+              'font-size': '30px',
+              'border': '30px solid orange'
+            } 
+
+          } else {
+
+            this.firstPositionStyle = {
+              'display': 'block',
+              'font-size': '20px',
+              'border': '30px solid navy'
+            }
+
+          }
+
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
+          this.loadingElements = false;
         }
         return result;
       }),
@@ -187,6 +207,17 @@ export class CategoriesHandlerService {
 
 
 
+  errorStyle: any = {
+    'display': 'none'
+  }
+
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
+
 
 
   public searchFilter(event: Event) {
@@ -197,6 +228,19 @@ export class CategoriesHandlerService {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
+
+    if (this.dataSource.filteredData.length == 0) {
+      this.errorStyle = {
+        'display': 'block'
+      }
+    } else {
+      this.errorStyle = {
+        'display': 'none'
+      }
+    }
+
+
     this.loadingElements = false;
   }
 

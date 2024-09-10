@@ -55,8 +55,28 @@ export class UsersHandlerService {
           this.dataSource.data = result.model as ApplicationUser[];
           this.users = result.model as ApplicationUser[];
           this.loadingElements = false;
+
+          if (this.users.length > 0) {
+
+            this.firstPositionStyle = {
+              'display': 'none',
+              'font-size': '30px',
+              'border': '30px solid orange'
+            }
+
+          } else {
+
+            this.firstPositionStyle = {
+              'display': 'block',
+              'font-size': '20px',
+              'border': '30px solid navy'
+            }
+
+          }
+
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
+          this.loadingElements = false;
         }
         return result;
       }),
@@ -216,7 +236,7 @@ export class UsersHandlerService {
           this.snackBarService.setSnackBar(`Usunięto`);
           this.loadingElements = false;
         } else {
-          this.snackBarService.setSnackBar(`${result.message}`);
+          this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
           this.loadingElements = false;
         }
         return result;
@@ -230,7 +250,18 @@ export class UsersHandlerService {
 
   
    
-   
+
+  errorStyle: any = {
+    'display': 'none'
+  }
+
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
+
 
   public searchFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -239,6 +270,17 @@ export class UsersHandlerService {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
+    if (this.dataSource.filteredData.length == 0) {
+      this.errorStyle = {
+        'display': 'block'
+      }
+    } else {
+      this.errorStyle = {
+        'display': 'none'
+      }
+    }
+
   }
 
 

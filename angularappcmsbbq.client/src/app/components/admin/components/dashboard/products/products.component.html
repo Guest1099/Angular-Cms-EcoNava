@@ -25,7 +25,7 @@
 
 
 
-    <div *ngIf="productsService.dataSource.filteredData.length > 0">
+    <div [ngClass]="productsService.products.length > 0 && productsService.dataSource.filteredData.length > 0  ? 'showTable' : 'hideTable'">
         <table mat-table [dataSource]="productsService.dataSource" matSort class="mat-elevation-z1 table">
 
             <ng-container matColumnDef="lp">
@@ -34,22 +34,22 @@
             </ng-container>
 
             <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-                <td mat-cell *matCellDef="let element">{{ takeText (element.name, 5) }}</td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazwa</th>
+                <td mat-cell *matCellDef="let element">{{ takeText(element.name, 7) }}</td>
             </ng-container>
 
             <ng-container matColumnDef="description">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-                <td mat-cell *matCellDef="let element">{{ takeText (element.description, 30) }}</td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Opis</th>
+                <td mat-cell *matCellDef="let element">{{ takeText(element.description, 15) }}</td>
             </ng-container>
 
             <ng-container matColumnDef="price">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cena</th>
                 <td mat-cell *matCellDef="let element">{{ element.price }}</td>
             </ng-container>
 
             <ng-container matColumnDef="quantity">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Ilość</th>
                 <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
             </ng-container>
 
@@ -68,11 +68,12 @@
                 <td mat-cell *matCellDef="let element">{{ element.iloscOdwiedzin }}</td>
             </ng-container>
 
+
             <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef>Actions</th>
                 <td mat-cell *matCellDef="let element" class="w-200px">
 
-                    <button mat-button [routerLink]="['productEdit', element.productId]">
+                    <button mat-button [routerLink]="['userEdit', element.id]">
                         <mat-icon>edit</mat-icon>
                     </button>
 
@@ -84,6 +85,7 @@
 
             <tr mat-header-row *matHeaderRowDef="productsService.displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: productsService.displayedColumns"></tr>
+
         </table>
 
         <mat-paginator [pageSizeOptions]="[5,10,20,30]" showFirstLastButtons (page)="onPageChange($event)" style="margin: 20px 0px; background-color: transparent;"></mat-paginator>
@@ -91,11 +93,20 @@
     </div>
 
 
-    <div *ngIf="productsService.dataSource.filteredData.length <= 0">
-        <h4>
+    <div [ngStyle]="productsService.errorStyle" class="tableBottomResult">
+        <span>
             Nie znaleziono żadnych pozycji
-        </h4>
+        </span>
     </div>
+
+
+
+    <div [ngStyle]="productsService.firstPositionStyle" class="tableBottomResult">
+        <span>
+            Dodaj pierwszą pozycję
+        </span>
+    </div>
+
 
 
 

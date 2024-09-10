@@ -4002,5 +4002,19 @@ ul {
     color: inherit;
   }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.showTable {
+  display: block;
+  color: orange;
+}
+
+.hideTable {
+  display: none;
+  color: black;
+  border: 10px solid orange;
+}
+
+.tableBottomResult {
+    font-size: 25px;
+}
+

@@ -15,7 +15,7 @@
                 <!-- wyszukiwarka -->
                 <mat-form-field appearance="outline" class="w-300px">
                     <mat-label>Wyszukiwarka</mat-label>
-                    <input matInput [formControl]="searchForm" (keyup)="markiService.searchFilter($event)" placeholder="szukana fraza...">
+                    <input matInput (keyup)="markiService.searchFilter($event)" placeholder="szukana fraza...">
                     <mat-icon matSuffix>search</mat-icon>
                 </mat-form-field>
             </div>
@@ -23,7 +23,7 @@
     </div>
 
     <!-- jeżeli jest większa ilość obiektów wyświetl tabelę -->
-    <div *ngIf="markiService.dataSource.filteredData.length > 0">
+    <div [ngClass]="markiService.marki.length > 0 && markiService.dataSource.filteredData.length > 0  ? 'showTable' : 'hideTable'">
 
         <table mat-table [dataSource]="markiService.dataSource" matSort class="mat-elevation-z1 table">
 
@@ -70,11 +70,21 @@
     </div>
 
 
-    <div *ngIf="markiService.dataSource.filteredData.length <= 0">
-        <h4>
+
+    <div [ngStyle]="markiService.errorStyle" class="tableBottomResult">
+        <span>
             Nie znaleziono żadnych pozycji
-        </h4>
+        </span>
     </div>
+
+
+
+    <div [ngStyle]="markiService.firstPositionStyle" class="tableBottomResult">
+        <span>
+            Dodaj pierwszą pozycję
+        </span>
+    </div>
+
 
 
 

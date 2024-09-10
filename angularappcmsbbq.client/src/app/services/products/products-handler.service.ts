@@ -14,7 +14,7 @@ import { InfoService } from '../InfoService';
   providedIn: 'root'
 })
 export class ProductsHandlerService {
-
+   
   displayedColumns: string[] = ['lp', 'name', 'description', 'price', 'quantity', 'rozmiar', 'kolor', 'iloscOdwiedzin', 'action'];
   dataSource = new MatTableDataSource<Product>();
 
@@ -23,7 +23,7 @@ export class ProductsHandlerService {
 
 
   product!: Product;
-  products!: Product [];
+  products: Product[] = [];
   loadingElements: boolean = false;
 
 
@@ -55,6 +55,26 @@ export class ProductsHandlerService {
           this.dataSource.data = result.model as Product[];
           this.products = result.model as Product[];
           this.loadingElements = false;
+
+
+          if (this.products.length > 0) {
+
+            this.firstPositionStyle = {
+              'display': 'none',
+              'font-size': '30px',
+              'border': '30px solid orange'
+            }
+
+          } else {
+
+            this.firstPositionStyle = {
+              'display': 'block',
+              'font-size': '20px',
+              'border': '30px solid navy'
+            }
+
+          }
+
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
           this.loadingElements = false;
@@ -209,6 +229,19 @@ export class ProductsHandlerService {
 
 
 
+
+  errorStyle: any = {
+    'display': 'none'
+  }
+
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
+
+
   public searchFilter(event: Event) {
     this.loadingElements = true;
     const filterValue = (event.target as HTMLInputElement).value;
@@ -217,6 +250,17 @@ export class ProductsHandlerService {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
+    if (this.dataSource.filteredData.length == 0) {
+      this.errorStyle = {
+        'display': 'block'
+      }
+    } else {
+      this.errorStyle = {
+        'display': 'none'
+      }
+    }
+
     this.loadingElements = false;
   }
 

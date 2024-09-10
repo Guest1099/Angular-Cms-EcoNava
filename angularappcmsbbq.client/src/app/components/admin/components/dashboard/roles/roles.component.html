@@ -26,7 +26,7 @@
 
     <!-- jeżeli jest większa ilość obiektów wyświetl tabelę -->
 
-    <div *ngIf="rolesService.dataSource.filteredData.length > 0">
+    <div [ngClass]="rolesService.roles.length > 0 && rolesService.dataSource.filteredData.length > 0  ? 'showTable' : 'hideTable'">
         <table mat-table [dataSource]="rolesService.dataSource" matSort class="mat-elevation-z1 table">
 
             <ng-container matColumnDef="lp">
@@ -61,11 +61,22 @@
 
     </div>
 
-    <div *ngIf="rolesService.dataSource.filteredData.length <= 0">
-        <h4>
+
+    <div [ngStyle]="rolesService.errorStyle" class="tableBottomResult">
+        <span>
             Nie znaleziono żadnych pozycji
-        </h4>
+        </span>
     </div>
+
+
+
+    <div [ngStyle]="rolesService.firstPositionStyle" class="tableBottomResult">
+        <span>
+            Dodaj pierwszą pozycję
+        </span>
+    </div>
+
+
 
 
 </ng-container>

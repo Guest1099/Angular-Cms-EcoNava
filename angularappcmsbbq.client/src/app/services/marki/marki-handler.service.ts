@@ -50,11 +50,32 @@ export class MarkiHandlerService {
       next: ((result: TaskResult<Marka[]>) => {
         if (result.success) {
           // pobranie danych
-          this.marki = result.model;
+          this.marki = result.model as Marka[];
           this.dataSource.data = result.model as Marka [];
           this.loadingElements = false;
+
+
+          if (this.marki.length > 0) {
+
+            this.firstPositionStyle = {
+              'display': 'none',
+              'font-size': '30px',
+              'border': '30px solid orange'
+            }
+
+          } else {
+
+            this.firstPositionStyle = {
+              'display': 'block',
+              'font-size': '20px',
+              'border': '30px solid navy'
+            }
+
+          }
+
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
+          this.loadingElements = false;
         }
         return result;
       }),
@@ -75,6 +96,7 @@ export class MarkiHandlerService {
           this.marka = result.model as Marka;
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
+          this.loadingElements = false;
         }
         return result;
       }),
@@ -178,6 +200,16 @@ export class MarkiHandlerService {
 
 
 
+  errorStyle: any = {
+    'display': 'none'
+  }
+
+
+  firstPositionStyle: any = {
+    'display': 'none',
+    'font-size': '30px',
+    'border': '30px solid orange'
+  }
 
   public searchFilter(event: Event) {
     this.loadingElements = true;
@@ -187,6 +219,17 @@ export class MarkiHandlerService {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
+    if (this.dataSource.filteredData.length == 0) {
+      this.errorStyle = {
+        'display': 'block'
+      }
+    } else {
+      this.errorStyle = {
+        'display': 'none'
+      }
+    }
+
     this.loadingElements = false;
   }
 

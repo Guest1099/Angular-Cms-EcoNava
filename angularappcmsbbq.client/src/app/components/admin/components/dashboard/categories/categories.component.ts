@@ -24,13 +24,20 @@ export class CategoriesComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.testStyle = {
+      'font-size': '30px',
+      'display': 'none'
+    }; 
+
   }
 
   ngAfterViewInit(): void {
     this.categoriesService.initializeDataSource(this.paginator, this.sort);
   }
 
-
+  public testStyle: any;
+  public testClass: any;
 
 
   getText(text: string, iloscZnakow: number): string {

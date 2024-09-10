@@ -25,18 +25,7 @@
 
 
 
-    <!--
-        <div *ngIf="subsubcategoriesService.dataSource.data.length > 0 && subsubcategoriesService.loadingElements" class="centerx mt-100">
-            <mat-spinner diameter="32" *ngIf="subsubcategoriesService.dataSource.data.length > 0 && subsubcategoriesService.loadingElements" class="spinner"></mat-spinner>
-        </div>
-
-
-        <div *ngIf="subsubcategoriesService.dataSource.data.length > 0">
-             -->
-
-    <!-- jeżeli jest większa ilość obiektów wyświetl tabelę -->
-
-    <div *ngIf="subsubcategoriesService.dataSource.filteredData.length > 0">
+    <div [ngClass]="subsubcategoriesService.subsubcategories.length > 0 && subsubcategoriesService.dataSource.filteredData.length > 0  ? 'showTable' : 'hideTable'">
         <table mat-table [dataSource]="subsubcategoriesService.dataSource" matSort class="mat-elevation-z1 table">
 
             <ng-container matColumnDef="lp">
@@ -77,10 +66,19 @@
     </div>
 
 
-    <div *ngIf="subsubcategoriesService.dataSource.filteredData.length <= 0">
-        <h4>
+
+    <div [ngStyle]="subsubcategoriesService.errorStyle" class="tableBottomResult">
+        <span>
             Nie znaleziono żadnych pozycji
-        </h4>
+        </span>
+    </div>
+
+
+
+    <div [ngStyle]="subsubcategoriesService.firstPositionStyle" class="tableBottomResult">
+        <span>
+            Dodaj pierwszą pozycję
+        </span>
     </div>
 
 

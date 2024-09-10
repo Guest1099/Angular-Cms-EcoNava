@@ -17,7 +17,6 @@ export class MarkiComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  searchForm = new FormControl('');
 
   constructor(
     public accountService: AccountHandlerService,
