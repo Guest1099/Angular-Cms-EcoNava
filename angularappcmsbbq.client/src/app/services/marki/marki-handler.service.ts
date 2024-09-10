@@ -39,6 +39,11 @@ export class MarkiHandlerService {
   }
 
 
+  preloaderStyle: any = {
+    'display': 'flex',
+    'justify-content': 'center',
+    'alignalign-items': 'center',
+  }
 
   constructor(
     private markiService: MarkiService,
@@ -97,6 +102,8 @@ export class MarkiHandlerService {
             };
 
           }
+
+          this.preloaderStyle.display = 'none';
 
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);

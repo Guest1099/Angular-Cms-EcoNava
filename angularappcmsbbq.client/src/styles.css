@@ -4026,3 +4026,11 @@ ul {
 
 .firstPosition {
 }
+
+
+.showPreloader {
+  display: block;
+}
+.hidePreloader {
+  display: none;
+}

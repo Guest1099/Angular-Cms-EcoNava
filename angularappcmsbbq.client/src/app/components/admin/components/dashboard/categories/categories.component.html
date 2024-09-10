@@ -22,7 +22,13 @@
     </div>
 
 
+    <!-- preloader -->
+    <div [ngStyle]="categoriesService.preloaderStyle">
+        <mat-spinner diameter="32" class="spinner"></mat-spinner>
+    </div>
 
+
+    <!-- tabela wyświetlające elementy -->
     <div [ngClass]="categoriesService.categories.length > 0 && categoriesService.dataSource.filteredData.length > 0  ? 'showTable' : 'hideTable'">
         <table mat-table [dataSource]="categoriesService.dataSource" matSort class="mat-elevation-z1 table">
 

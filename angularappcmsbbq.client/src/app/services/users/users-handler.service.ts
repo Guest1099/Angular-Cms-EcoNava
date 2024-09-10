@@ -48,6 +48,11 @@ export class UsersHandlerService {
     'border': '30px solid orange'
   }
 
+  preloaderStyle: any = {
+    'display': 'flex',
+    'justify-content': 'center',
+    'alignalign-items': 'center',
+  }
 
   public initializeDataSource(paginator: MatPaginator, sort: MatSort): void {
     this.getAll();
@@ -98,6 +103,8 @@ export class UsersHandlerService {
             };
 
           }
+
+          this.preloaderStyle.display = 'none';
 
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);

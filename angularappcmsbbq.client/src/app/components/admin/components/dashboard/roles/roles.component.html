@@ -24,8 +24,13 @@
 
 
 
-    <!-- jeżeli jest większa ilość obiektów wyświetl tabelę -->
+    <!-- preloader -->
+    <div [ngStyle]="rolesService.preloaderStyle">
+        <mat-spinner diameter="32" class="spinner"></mat-spinner>
+    </div>
 
+
+    <!-- tabela wyświetlające elementy -->
     <div [ngClass]="rolesService.roles.length > 0 && rolesService.dataSource.filteredData.length > 0  ? 'showTable' : 'hideTable'">
         <table mat-table [dataSource]="rolesService.dataSource" matSort class="mat-elevation-z1 table">
 

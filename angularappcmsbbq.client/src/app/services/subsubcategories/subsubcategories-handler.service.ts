@@ -40,6 +40,11 @@ export class SubsubcategoriesHandlerService {
     'border': '30px solid orange'
   }
 
+  preloaderStyle: any = {
+    'display': 'flex',
+    'justify-content': 'center',
+    'alignalign-items': 'center',
+  }
 
   constructor(
     private subsubcategoriesService: SubsubcategoriesService,
@@ -98,6 +103,8 @@ export class SubsubcategoriesHandlerService {
             };
 
           }
+
+          this.preloaderStyle.display = 'none';
 
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);

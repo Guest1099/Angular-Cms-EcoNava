@@ -39,6 +39,11 @@ export class CategoriesHandlerService {
     'border': '30px solid orange'
   }
 
+  preloaderStyle: any = {
+    'display': 'flex',
+    'justify-content': 'center',
+    'alignalign-items': 'center',
+  }
 
   constructor(
     private categoriesService: CategoriesService,
@@ -97,6 +102,8 @@ export class CategoriesHandlerService {
             };
 
           }
+
+          this.preloaderStyle.display = 'none';
 
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);

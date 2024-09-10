@@ -23,7 +23,13 @@
     </div>
 
 
-    <!-- jeżeli jest większa ilość obiektów wyświetl tabelę -->
+    <!-- preloader -->
+    <div [ngStyle]="markiService.preloaderStyle">
+        <mat-spinner diameter="32" class="spinner"></mat-spinner>
+    </div>
+
+
+    <!-- tabela wyświetlające elementy -->
     <div [ngClass]="markiService.marki.length > 0 && markiService.dataSource.filteredData.length > 0  ? 'showTable' : 'hideTable'">
 
         <table mat-table [dataSource]="markiService.dataSource" matSort class="mat-elevation-z1 table">

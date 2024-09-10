@@ -38,6 +38,11 @@ export class RolesHandlerService {
     'border': '30px solid orange'
   }
 
+  preloaderStyle: any = {
+    'display': 'flex',
+    'justify-content': 'center',
+    'alignalign-items': 'center',
+  }
 
   constructor(
     private rolesService: RolesService,
@@ -97,6 +102,8 @@ export class RolesHandlerService {
             };
 
           }
+
+          this.preloaderStyle.display = 'none';
 
           this.loadingElements = false;
         } else {

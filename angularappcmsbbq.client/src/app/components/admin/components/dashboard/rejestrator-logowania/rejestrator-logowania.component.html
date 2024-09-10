@@ -20,7 +20,13 @@
 
 
 
+    <!-- preloader -->
+    <div [ngStyle]="rejestratorLogowaniaService.preloaderStyle">
+        <mat-spinner diameter="32" class="spinner"></mat-spinner>
+    </div>
 
+
+    <!-- tabela wyświetlające elementy -->
     <div [ngClass]="rejestratorLogowaniaService.rejestratorLogowan.length > 0 && rejestratorLogowaniaService.dataSource.filteredData.length > 0  ? 'showTable' : 'hideTable'">
         <table mat-table [dataSource]="rejestratorLogowaniaService.dataSource" matSort class="mat-elevation-z1 table">
 
