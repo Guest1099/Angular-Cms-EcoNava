@@ -115,18 +115,18 @@
                                         <mat-icon>update</mat-icon>
                                         Zmień hasło
                                     </button>
-                                    
-                                        <button mat-menu-item (click)="accountHandlerService.wyloguj ()">
-                                            <mat-icon>logout</mat-icon>
-                                            wyloguj
-                                        </button>
 
-<!-- 
-                                    <button mat-menu-item (click)="wyloguj ()">
+                                    <button mat-menu-item (click)="accountHandlerService.wyloguj ()">
                                         <mat-icon>logout</mat-icon>
                                         wyloguj
                                     </button>
- -->
+
+                                    <!--
+                                                                        <button mat-menu-item (click)="wyloguj ()">
+                                                                            <mat-icon>logout</mat-icon>
+                                                                            wyloguj
+                                                                        </button>
+                                     -->
 
                                 </mat-menu>
 
@@ -150,7 +150,7 @@
 
 
     </mat-sidenav-container>
-</ng-container> 
+</ng-container>
 
 
 
@@ -160,7 +160,7 @@
 
 
 
-  
+
 <ng-container *ngIf="!isLoggedIn">
     <div style="width: 100%; height: 90vh; display: flex; align-items: center; justify-content: center;">
         <div style="width: 500px;">
@@ -182,15 +182,15 @@
                 </mat-form-field>
 
                 <!-- <div class="pr centerx">
-        <button mat-raised-button
-                color="primary"
-                (click)="accountHandlerService.login(formGroupLogin)"
-                [disabled]="accountHandlerService.asTouchedDirtyLogin (formGroupLogin)">
-            <mat-icon>login</mat-icon>
-            Login
-        </button>
-        <mat-spinner diameter="32" *ngIf="logowanie" class="p"></mat-spinner>
-    </div> -->
+                    <button mat-raised-button
+                            color="primary"
+                            (click)="accountHandlerService.login(formGroupLogin)"
+                            [disabled]="accountHandlerService.asTouchedDirtyLogin (formGroupLogin)">
+                        <mat-icon>login</mat-icon>
+                        Login
+                    </button>
+                    <mat-spinner diameter="32" *ngIf="logowanie" class="p"></mat-spinner>
+                </div> -->
 
                 <div class="pr centerx">
                     <button mat-raised-button
@@ -208,4 +208,4 @@
         </div>
     </div>
 </ng-container>
- 
+

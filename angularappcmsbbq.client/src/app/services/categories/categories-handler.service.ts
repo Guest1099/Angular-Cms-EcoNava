@@ -25,7 +25,7 @@ export class CategoriesHandlerService {
 
   category!: Category;
   categories: Category[] = [];
-  loadingElements: boolean = false; 
+  loadingElements: boolean = false;
 
 
   searchResultInformationStyle: any = {
@@ -67,53 +67,35 @@ export class CategoriesHandlerService {
       this.searchFormControl.setValue('');
     }
 
-    this.searchResultInformationStyle = {
-      'display': 'none'
-    };
+    this.searchResultInformationStyle.display = 'none';
   }
   
 
 
   public getAll(): void {
-    this.loadingElements = true;
     this.categoriesService.getAll().subscribe({
       next: ((result: TaskResult<Category[]>) => {
         if (result.success) {
           // pobranie danych
           this.categories = result.model as Category[];
           this.dataSource.data = result.model as Category[];
-          this.loadingElements = false;
 
 
           if (this.categories.length > 0) {
-
-            this.firstPositionStyle = {
-              'display': 'none',
-              'font-size': '30px',
-              'border': '30px solid orange'
-            };
-
+            this.firstPositionStyle.display = 'none';
           } else {
-
-            this.firstPositionStyle = {
-              'display': 'block',
-              'font-size': '20px',
-              'border': '30px solid navy'
-            };
-
+            this.firstPositionStyle.display = 'block';
           }
 
           this.preloaderStyle.display = 'none';
 
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
-          this.loadingElements = false;
         }
         return result;
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('CategoriesHandlerService', 'getAll')}. Name: ${error.name}. Message: ${error.message}`);
-        this.loadingElements = false;
       }
     });
   } 
@@ -191,7 +173,7 @@ export class CategoriesHandlerService {
       };
 
 
-      this.loadingElements = true;
+      this.loadingElements = false;
       this.categoriesService.edit(ob.categoryId, category).subscribe({
         next: ((result: TaskResult<Category>) => {
           if (result.success) {
@@ -242,7 +224,6 @@ export class CategoriesHandlerService {
 
 
   public searchFilter(event: Event) {
-    this.loadingElements = true;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -252,17 +233,11 @@ export class CategoriesHandlerService {
 
 
     if (this.dataSource.filteredData.length == 0) {
-      this.searchResultInformationStyle = {
-        'display': 'block'
-      };
+      this.searchResultInformationStyle.display = 'block';
     } else {
-      this.searchResultInformationStyle = {
-        'display': 'none'
-      };
+      this.searchResultInformationStyle.display = 'none';
     }
 
-
-    this.loadingElements = false;
   }
 
 

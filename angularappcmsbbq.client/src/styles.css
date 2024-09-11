@@ -3921,22 +3921,83 @@ ul {
 
   .table thead th {
     background-color: transparent;
-    padding: 15px 5px;
+    padding: 5px 5px;
     color: black;
     text-align: left;
     border-bottom: 2px solid white;
-  } 
+  }
 
-  .table tbody td {
+  .table thead tr {
+    background-color: transparent;
+    /*background-color: rgb(240,240,240);*/
+  }
+
+  .table tbody tr {
     background-color: rgb(240,240,230);
+  }
+
+    .table tbody tr:hover {
+      background-color: rgb(240,240,230);
+    }
+
+
+  .table tbody td { 
     margin: 0px;
     padding: 5px;
     border-bottom: 1px solid white;
   }
 
+  /*.table tbody td {
+    background-color: rgb(240,240,230);
+    margin: 0px;
+    padding: 5px;
+    border-bottom: 1px solid white;
+  } */
+
+
+
+.tableColumnLp {
+  width: 50px; 
+}
+
+.tableColumnLp span {
+    margin-left: 10px;
+}
+
+.tableCategoriesColumnName {
+  width: 500px;
+}
+
+.tableColumnFullName { 
+}
+
+.tableColumnAction {
+  width: 180px;
+}
+
+
+.tableProductsColumnName {
+  width: 150px;
+}
+
+.tableProductsColumnDescription {
+  width: 300px;
+}
+
+.tableProductsColumnPrice {
+  width: 100px;
+}
+
+.tableProductsColumnRozmiar {
+  width: 120px;
+}
+
+.tableProductsColumnKolor {
+  width: 140px;
+}
+
 
 /* Top navigation ----------------------------------------------------------------------------------- */
-
 .toolBarRow {
   background-color: navy;
   color: white;
@@ -4031,6 +4092,7 @@ ul {
 .showPreloader {
   display: block;
 }
+
 .hidePreloader {
   display: none;
 }

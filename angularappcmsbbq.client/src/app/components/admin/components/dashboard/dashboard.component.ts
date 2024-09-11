@@ -8,6 +8,10 @@ import { AccountService } from '../../../../services/account/account.service';
 import { LoginViewModel } from '../../../../models/loginViewModel';
 import { TaskResult } from '../../../../models/taskResult';
 import { InfoService } from '../../../../services/InfoService';
+import { RejestratorLogowaniaHandlerService } from '../../../../services/rejestratorLogowania/rejestrator-logowania-handler.service';
+import { RejestratorLogowania } from '../../../../models/rejestratorLogowania';
+import { GuidGenerator } from '../../../../services/guid-generator';
+import { Guid } from 'guid-typescript';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,6 +37,7 @@ export class DashboardComponent implements OnInit {
     private fb: FormBuilder,
     public accountHandlerService: AccountHandlerService,
     public roleService: RolesHandlerService,
+    public rejestratorLogowaniaService: RejestratorLogowaniaHandlerService,
     private router: Router,
     private snackBarService: SnackBarService,
     public accountService: AccountService,
@@ -67,13 +72,19 @@ export class DashboardComponent implements OnInit {
     this.formGroupRegister.markAllAsTouched();
 
 
-    let sessionModel = sessionStorage.getItem('sessionModel') || '';
-    let sm = JSON.parse(sessionModel);
-    this.zalogowanyUserEmail = sm.model.email;
-    this.isLoggedIn = sm.isLoggedIn;
-    this.role = sm.role;
+    let sessionModel = sessionStorage.getItem('sessionModel');
+    if (sessionModel) {
+      let sm = JSON.parse(sessionModel);
+      this.zalogowanyUserEmail = sm.model.email;
+      this.isLoggedIn = sm.isLoggedIn;
+      this.role = sm.role;
+    }
 
+    this.testData = new Date().toString();
+    this.testData2 = new Date().toString();
   }
+  testData: string = '';
+  testData2: string = '';
 
 
   toggleSidenav(): void {
@@ -86,8 +97,11 @@ export class DashboardComponent implements OnInit {
     this.linkName = `\\${linkName}`;
   }
    
-    
 
+/*
+  rejestratorLogowania !: RejestratorLogowania;
+  rejestratorLogowaniaId: string = '';
+*/
   public login(form: FormGroup): void {
 
     // Pobranie wartości z kontrolek
@@ -108,13 +122,36 @@ export class DashboardComponent implements OnInit {
       next: ((result: TaskResult<LoginViewModel>) => {
 
         if (result.success) {
-
+           
           // czas po jakim użytkownik ma się wylogować w milisekundach, minuta to 60000 ms, 10 * 60 * 10 = 60000
           // let expirationTime = 10000; // 10 sek
           // let expirationTime = 60000; // 1 min
           let expirationTime = 600000; // 10 min
           let dataZalogowania = new Date();
-          let dataWylogowania = dataZalogowania.setMilliseconds(expirationTime);
+          let dataAutomatycznegoWylogowania = dataZalogowania.setMilliseconds(expirationTime);
+
+           
+          // rejestrator logowania
+/*
+          this.rejestratorLogowaniaId = GuidGenerator.newGuid().toString();
+          this.rejestratorLogowania.rejestratorLogowaniaId = this.rejestratorLogowaniaId;
+          this.rejestratorLogowania.dataZalogowania = dataZalogowania.toString();
+          this.rejestratorLogowania.dataWylogowania = '';
+          this.rejestratorLogowania.userId = result.model.userId;
+          this.rejestratorLogowaniaService.create(this.rejestratorLogowania);
+*/
+
+/*
+          let rejestratorLogowaniaId = GuidGenerator.newGuid().toString();
+          let rejestratorLogowania: RejestratorLogowania = {
+            rejestratorLogowaniaId: rejestratorLogowaniaId,
+            dataZalogowania: new Date().toString(),
+            dataWylogowania: '',
+            userId: result.model.userId
+          };
+          this.rejestratorLogowaniaService.create(rejestratorLogowania); 
+*/
+
          
           // zapisanie w sesji zalogowanego użytkownika
           let sessionModel = {
@@ -122,21 +159,25 @@ export class DashboardComponent implements OnInit {
             isLoggedIn: true,
             role: result.model.role,
             dataZalogowania: dataZalogowania,
-            dataWylogowania: dataWylogowania,
+            dataAutomatycznegoWylogowania: dataAutomatycznegoWylogowania,
             expirationTime: expirationTime,
+            //rejestratorLogowaniaId: rejestratorLogowaniaId
           };             
           sessionStorage.setItem('sessionModel', JSON.stringify(sessionModel));
 
-          this.snackBarService.setSnackBar(`Zalogowany użytkownik: ${result.model.email}`);
+
           this.zalogowanyUserEmail = result.model.email;
           this.isLoggedIn = true;
           this.logowanie = false;
           this.role = result.model.role ? result.model.role : "";
 
+
           
           form.reset();
           //this.router.navigate(['admin/users']);
           this.router.navigate(['admin/users']).then(() => location.reload());
+
+          this.snackBarService.setSnackBar(`Zalogowany użytkownik: ${result.model.email}`);
         } else {
           this.snackBarService.setSnackBar(`${InfoService.info('Dashboard', 'login')}. ${result.message}.`);
           sessionStorage.removeItem('sessionModel');
@@ -155,10 +196,22 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  private setRejestratorLogowania(): void {
+
+  }
+
+  private setSessionAndData(): void {
+
+  }
+
 
 /*
   // Metoda odpowiedzialna za wylogowanie
-  public wyloguj(): void {    
+  public wyloguj(): void {
+
+    this.rejestratorLogowania.dataWylogowania = new Date().toString();
+    this.rejestratorLogowaniaService.edit(this.rejestratorLogowaniaId, this.rejestratorLogowania);
+
     this.accountService.logout().subscribe({
       next: () => {
         // Wyczyszczenie danych z pamięci podręcznej

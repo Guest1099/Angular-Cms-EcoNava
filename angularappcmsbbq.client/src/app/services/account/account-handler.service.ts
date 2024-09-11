@@ -9,6 +9,9 @@ import { RegisterViewModel } from '../../models/registerViewModel';
 import { GuidGenerator } from '../guid-generator';
 import { InfoService } from '../InfoService';
 import { ChangePasswordViewModel } from '../../models/changePasswordViewModel';
+import { RejestratorLogowaniaHandlerService } from '../rejestratorLogowania/rejestrator-logowania-handler.service';
+import { RejestratorLogowaniaService } from '../rejestratorLogowania/rejestrator-logowania.service';
+import { RejestratorLogowania } from '../../models/rejestratorLogowania';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +20,7 @@ export class AccountHandlerService {
 
   constructor(
     public accountService: AccountService,
+    private rejestratorLogowaniaService: RejestratorLogowaniaService,
     private router: Router,
     private snackBarService: SnackBarService,
   ) {
@@ -253,7 +257,7 @@ export class AccountHandlerService {
   }
 */
 
-
+/*
   // Metoda odpowiedzialna za wylogowanie
   public wyloguj(): void {
 
@@ -275,7 +279,59 @@ export class AccountHandlerService {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('AccountHandlerService', 'wyloguj')}. Name: ${error.name}. Message: ${error.message}`);
       }
     });
+  }*/
+
+
+  // Metoda służąca zarejestrowaniu zalogowanego użytkownika w bazie, loguje się czas zalogowania oraz czas wylogowania
+  private rejestratorLogowaniaEditInternal (id: string): void {
+    this.rejestratorLogowaniaService.editInternal(id).subscribe({
+      next: ((result: TaskResult<RejestratorLogowania>) => {
+        if (result.success) {
+          //this.getAll();
+        } else {
+          //this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
+        }
+        return result;
+      }),
+      error: (error: Error) => {
+        this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('AccountHandlerService', 'rejestratorLogowaniaEditInternal')}. Name: ${error.name}. Message: ${error.message}`);
+      }
+    });
   }
+
+
+  // Metoda odpowiedzialna za wylogowanie
+  public wyloguj(): void {
+
+    let sessionModel = sessionStorage.getItem('sessionModel');
+    if (sessionModel) {
+      let sm = JSON.parse(sessionModel);
+
+      // zmodyfikowanie czasu zalogowania użytkownika
+      /*let rejestratorLogowaniaId = sm.model.rejestratorLogowaniaId;
+      if (rejestratorLogowaniaId) {
+        //this.rejestratorLogowaniaService.editInternal(rejestratorLogowaniaId);
+      }*/
+      alert(sm.model.dataZalogowania);
+
+    }
+
+      // wylogowanie użytkownika
+      this.accountService.logout().subscribe({
+        next: () => {
+          // Wyczyszczenie danych z pamięci podręcznej
+          sessionStorage.removeItem('sessionModel');
+          this.isLoggedIn = false;
+          //this.router.navigate(['admin']);
+          this.router.navigate(['admin']).then(() => location.reload());
+        },
+        error: (error: Error) => {
+          this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('AccountHandlerService', 'wyloguj')}. Name: ${error.name}. Message: ${error.message}`);
+        }
+      });
+    
+  }
+
 
 
 /*

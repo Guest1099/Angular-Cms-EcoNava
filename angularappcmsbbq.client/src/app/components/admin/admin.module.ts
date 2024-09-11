@@ -44,6 +44,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { CategoryEditComponent } from './components/dashboard/categories/category-edit/category-edit.component';
 import { SubcategoriesComponent } from './components/dashboard/subcategories/subcategories.component';
 import { SubsubcategoriesComponent } from './components/dashboard/subsubcategories/subsubcategories.component';
@@ -76,7 +77,6 @@ import { UserDeleteComponent } from './components/dashboard/users/user-delete/us
 import { UserEditComponent } from './components/dashboard/users/user-edit/user-edit.component';
 import { AccountService } from '../../services/account/account.service';
 import { AuthInterceptor } from '../../services/account/auth.interceptor';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 @NgModule({
@@ -114,7 +114,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     UpdateComponent,
     RejestratorLogowaniaComponent,
     RejestratorLogowaniaDeleteComponent,
-    RejestratorLogowaniaEditComponent,
+    RejestratorLogowaniaEditComponent, 
   ],
   imports: [
     CommonModule,

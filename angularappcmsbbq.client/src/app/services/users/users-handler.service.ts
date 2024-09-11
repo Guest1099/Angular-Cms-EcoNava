@@ -55,10 +55,10 @@ export class UsersHandlerService {
   }
 
   public initializeDataSource(paginator: MatPaginator, sort: MatSort): void {
-    this.getAll();
-
     this.dataSource.paginator = paginator;
     this.dataSource.sort = sort;
+
+    this.getAll();
 
     // czyszczenie kontrolki wyszukującej po odświeżeniu strony z wpisanego tekstu
     if (this.searchFormControl.dirty) {
@@ -66,76 +66,52 @@ export class UsersHandlerService {
       this.searchFormControl.setValue('');
     }
 
-    this.searchResultInformationStyle = {
-      'display': 'none'
-    };
+    this.searchResultInformationStyle.display = 'none';
 
   }
 
-  showMessage: boolean = false;
 
   // Pobiera wszystkich użytkowników z bazy
   public getAll(): void {
-    this.loadingElements = true;
-    this.showMessage = this.loadingElements && this.dataSource.data.length > 0;
     this.usersService.getAll().subscribe({
       next: ((result: TaskResult<ApplicationUser[]>) => {
         if (result.success) {
           // pobranie danych
           this.dataSource.data = result.model as ApplicationUser[];
           this.users = result.model as ApplicationUser[];
-          this.loadingElements = false;
 
           if (this.users.length > 0) {
-
-            this.firstPositionStyle = {
-              'display': 'none',
-              'font-size': '30px',
-              'border': '30px solid orange'
-            };
-
-          } else {
-
-            this.firstPositionStyle = {
-              'display': 'block',
-              'font-size': '20px',
-              'border': '30px solid navy'
-            };
-
+            this.firstPositionStyle.display = 'none';
+          } else {             
+            this.firstPositionStyle.display = 'block';
           }
 
           this.preloaderStyle.display = 'none';
 
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
-          this.loadingElements = false;
         }
         return result;
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('UsersHandlerService', 'getAll')}. Name: ${error.name}. Message: ${error.message}`);
-        this.loadingElements = false;
       }
     });
   }
 
    
   public getUserByEmail(email: string): ApplicationUser {
-    this.loadingElements = true;
     this.usersService.getUserByEmail(email).subscribe({
       next: ((result: TaskResult<ApplicationUser>) => {
         if (result.success) {
           this.user = result.model as ApplicationUser;
-          this.loadingElements = false;
         } else {
           this.snackBarService.setSnackBar(`Użytkownik nie został załadowany. ${result.message}`);
-          this.loadingElements = false;
         }
         return result;
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('UsersHandlerService', 'getUserByEmail')}. Name: ${error.name}. Message: ${error.message}`);
-        this.loadingElements = false;
       }
     });
 
@@ -241,7 +217,6 @@ export class UsersHandlerService {
           this.loadingElements = false;
         } else {
           this.snackBarService.setSnackBar(`Konto nie zostało zaktualizowane. ${result.message}`);
-          sessionStorage.removeItem('userToken');
           this.loadingElements = false;
         }
 
@@ -293,13 +268,9 @@ export class UsersHandlerService {
     }
 
     if (this.dataSource.filteredData.length == 0) {
-      this.searchResultInformationStyle = {
-        'display': 'block'
-      };
+      this.searchResultInformationStyle.display = 'block';
     } else {
-      this.searchResultInformationStyle = {
-        'display': 'none'
-      };
+      this.searchResultInformationStyle.display = 'none';
     }
 
   }

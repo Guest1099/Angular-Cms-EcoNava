@@ -67,53 +67,35 @@ export class MarkiHandlerService {
       this.searchFormControl.setValue('');
     }
 
-    this.searchResultInformationStyle = {
-      'display': 'none'
-    };
+    this.searchResultInformationStyle.display = 'none';
   }
   
 
 
   public getAll(): void {
-    this.loadingElements = true;
     this.markiService.getAll().subscribe({
       next: ((result: TaskResult<Marka[]>) => {
         if (result.success) {
           // pobranie danych
           this.marki = result.model as Marka[];
           this.dataSource.data = result.model as Marka [];
-          this.loadingElements = false;
 
 
           if (this.marki.length > 0) {
-
-            this.firstPositionStyle = {
-              'display': 'none',
-              'font-size': '30px',
-              'border': '30px solid orange'
-            };
-
+            this.firstPositionStyle.display = 'none';
           } else {
-
-            this.firstPositionStyle = {
-              'display': 'block',
-              'font-size': '20px',
-              'border': '30px solid navy'
-            };
-
+            this.firstPositionStyle.display = 'block';
           }
 
           this.preloaderStyle.display = 'none';
 
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
-          this.loadingElements = false;
         }
         return result;
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('MarkiHandlerService', 'getAll')}. Name: ${error.name}. Message: ${error.message}`);
-        this.loadingElements = false;
       }
     });
   }
@@ -128,13 +110,11 @@ export class MarkiHandlerService {
           this.marka = result.model as Marka;
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
-          this.loadingElements = false;
         }
         return result;
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('MarkiHandlerService', 'get')}. Name: ${error.name}. Message: ${error.message}`);
-        this.loadingElements = false;
       }
     });
     return this.marka;
@@ -234,7 +214,6 @@ export class MarkiHandlerService {
 
 
   public searchFilter(event: Event) {
-    this.loadingElements = true;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -243,16 +222,11 @@ export class MarkiHandlerService {
     }
 
     if (this.dataSource.filteredData.length == 0) {
-      this.searchResultInformationStyle = {
-        'display': 'block'
-      };
+      this.searchResultInformationStyle.display = 'block';
     } else {
-      this.searchResultInformationStyle = {
-        'display': 'none'
-      };
+      this.searchResultInformationStyle.display = 'none';
     }
 
-    this.loadingElements = false;
   }
 
 

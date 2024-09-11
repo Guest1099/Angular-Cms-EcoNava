@@ -66,55 +66,37 @@ export class RolesHandlerService {
       this.searchFormControl.setValue('');
     }
 
-    this.searchResultInformationStyle = {
-      'display': 'none'
-    };
+    this.searchResultInformationStyle.display = 'none';
   }
    
 
   public getAll(): void {
-    this.loadingElements = true;
     this.rolesService.getAll().subscribe({
       next: ((result: TaskResult<ApplicationRole[]>) => {
         if (result.success) {
           // pobranie danych
           this.dataSource.data = result.model as ApplicationRole[];
-          this.roles = result.model;
+          this.roles = result.model as ApplicationRole[];
 
           result.model.forEach((f: ApplicationRole) => {
             this.rolesMap.set(f.id, f.name);
           });
 
           if (this.roles.length > 0) {
-
-            this.firstPositionStyle = {
-              'display': 'none',
-              'font-size': '30px',
-              'border': '30px solid orange'
-            };
-
+            this.firstPositionStyle.display = 'none';
           } else {
-
-            this.firstPositionStyle = {
-              'display': 'block',
-              'font-size': '20px',
-              'border': '30px solid navy'
-            };
-
+            this.firstPositionStyle.display = 'block';
           }
 
           this.preloaderStyle.display = 'none';
 
-          this.loadingElements = false;
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
-          this.loadingElements = false;
         }
         return result;
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('RolesHandlerService', 'getAll')}. Name: ${error.name}. Message: ${error.message}`);
-        this.loadingElements = false;
       }
     });
   }
@@ -224,7 +206,6 @@ export class RolesHandlerService {
 
 
   searchFilter(event: Event) {
-    this.loadingElements = true;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -233,16 +214,10 @@ export class RolesHandlerService {
     }
 
     if (this.dataSource.filteredData.length == 0) {
-      this.searchResultInformationStyle = {
-        'display': 'block'
-      };
+      this.searchResultInformationStyle.display = 'block';
     } else {
-      this.searchResultInformationStyle = {
-        'display': 'none'
-      };
+      this.searchResultInformationStyle.display = 'none';
     }
-
-    this.loadingElements = false;
   }
 
 

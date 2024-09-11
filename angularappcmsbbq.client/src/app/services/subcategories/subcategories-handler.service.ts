@@ -27,7 +27,7 @@ export class SubcategoriesHandlerService {
 
 
   subcategory!: Subcategory;
-  public subcategories: Subcategory[] = [];
+  subcategories: Subcategory[] = [];
   loadingElements: boolean = false;
   displayErrorMessage: boolean = false;
 
@@ -73,53 +73,34 @@ export class SubcategoriesHandlerService {
       this.searchFormControl.setValue('');
     }
 
-    this.searchResultInformationStyle = {
-      'display': 'none'
-    };
+    this.searchResultInformationStyle.display = 'none';
   }
 
 
 
   public getAll(): void {
-    this.loadingElements = true;
     this.subcategoriesService.getAll().subscribe({
       next: ((result: TaskResult<Subcategory[]>) => {
         if (result.success) {
           // pobranie danych 
           this.subcategories = result.model as Subcategory[];
           this.dataSource.data = result.model as Subcategory[];
-          this.loadingElements = false;
 
           if (this.subcategories.length > 0) {
-
-            this.firstPositionStyle = {
-              'display': 'none',
-              'font-size': '30px',
-              'border': '30px solid orange'
-            };
-
+            this.firstPositionStyle.display = 'none';
           } else {
-            this.displayErrorMessage = true;
-
-            this.firstPositionStyle = {
-              'display': 'block',
-              'font-size': '20px',
-              'border': '30px solid navy'
-            };
-
+            this.firstPositionStyle.display = 'block';
           }
 
           this.preloaderStyle.display = 'none';
 
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
-          this.loadingElements = false;
         }
         return result;
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('SubcategoriesHandlerService', 'getAll')}. Name: ${error.name}. Message: ${error.message}`);
-        this.loadingElements = false;
       }
     });
   }
@@ -132,22 +113,18 @@ export class SubcategoriesHandlerService {
 
 
   public get(id: any): void {
-    this.loadingElements = true;
     this.subcategoriesService.get(id).subscribe({
       next: ((result: TaskResult<Subcategory>) => {
         if (result.success) {
           // pobranie danych
           this.subcategory = result.model as Subcategory;
-          this.loadingElements = false;
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
-          this.loadingElements = false;
         }
         return result;
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('SubcategoriesHandlerService', 'get')}. Name: ${error.name}. Message: ${error.message}`);
-        this.loadingElements = false;
       }
     });
   }
@@ -253,7 +230,6 @@ export class SubcategoriesHandlerService {
 
 
   public searchFilter(event: Event) {
-    this.loadingElements = true;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -262,16 +238,11 @@ export class SubcategoriesHandlerService {
     }
 
     if (this.dataSource.filteredData.length == 0) {
-      this.searchResultInformationStyle = {
-        'display': 'block'
-      };
+      this.searchResultInformationStyle.display = 'block';
     } else {
-      this.searchResultInformationStyle = {
-        'display': 'none'
-      };
+      this.searchResultInformationStyle.display = 'none';
     }
 
-    this.loadingElements = false;
   }
 
 

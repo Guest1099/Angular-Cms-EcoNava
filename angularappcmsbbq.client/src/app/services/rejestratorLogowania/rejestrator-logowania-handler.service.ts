@@ -66,76 +66,55 @@ export class RejestratorLogowaniaHandlerService {
       this.searchFormControl.setValue('');
     }
 
-    this.searchResultInformationStyle = {
-      'display': 'none'
-    };
+    this.searchResultInformationStyle.display = 'none';
 
   }
 
 
 
   public getAll(): void {
-    this.loadingElements = true;
     this.rejestratorLogowaniaService.getAll().subscribe({
       next: ((result: TaskResult<RejestratorLogowania[]>) => {
         if (result.success) {
           // pobranie danych 
           this.dataSource.data = result.model as RejestratorLogowania[];
           this.rejestratorLogowan = result.model as RejestratorLogowania[];
-          this.loadingElements = false;
 
           if (this.rejestratorLogowan.length > 0) {
-
-            this.firstPositionStyle = {
-              'display': 'none',
-              'font-size': '30px',
-              'border': '30px solid orange'
-            };
-
+            this.firstPositionStyle.display = 'none';
           } else {
-
-            this.firstPositionStyle = {
-              'display': 'block',
-              'font-size': '20px',
-              'border': '30px solid navy'
-            };
-
+            this.firstPositionStyle.display = 'block';
           }
 
           this.preloaderStyle.display = 'none';
 
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
-          this.loadingElements = false;
         }
         return result;
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('RejestratorLogowaniaHandlerService', 'getAll')}. Name: ${error.name}. Message: ${error.message}`);
-        this.loadingElements = false;
       }
     });
   }
 
 
 
+
   public get(id: any): void {
-    this.loadingElements = true;
     this.rejestratorLogowaniaService.get(id).subscribe({
       next: ((result: TaskResult<RejestratorLogowania>) => {
         if (result.success) {
           // pobranie danych
           this.rejestratorLogowania = result.model as RejestratorLogowania;
-          this.loadingElements = false;
         } else {
           this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
-          this.loadingElements = false;
         }
         return result;
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('RejestratorLogowaniaHandlerService', 'get')}. Name: ${error.name}. Message: ${error.message}`);
-        this.loadingElements = false;
       }
     });
   }
@@ -143,7 +122,46 @@ export class RejestratorLogowaniaHandlerService {
 
 
 
-  public edit(id: string, form: FormGroup): void {
+
+  public create(rejestratorLogowania: RejestratorLogowania): void {
+
+    this.rejestratorLogowaniaService.create(rejestratorLogowania).subscribe({
+      next: ((result: TaskResult<RejestratorLogowania>) => {
+        if (result.success) { 
+        } else {
+          this.snackBarService.setSnackBar(`RejestratorLogowania błąd. ${result.message}`); 
+        }
+        return result;
+      }),
+      error: (error: Error) => {
+        this.snackBarService.setSnackBar(`${InfoService.info('ProductsHandlerService', 'create')}. Name: ${error.name}. Message: ${error.message}`);
+      }
+    });
+
+  }
+
+
+
+
+  public edit(id: string, rejestratorLogowania: RejestratorLogowania): void {
+    this.rejestratorLogowaniaService.edit(id, rejestratorLogowania).subscribe({
+      next: ((result: TaskResult<RejestratorLogowania>) => {
+        if (result.success) {
+          //this.getAll();
+        } else {
+          this.snackBarService.setSnackBar(`Dane nie zostały załadowane. ${result.message}`);
+        }
+        return result;
+      }),
+      error: (error: Error) => {
+        this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('RejestratorLogowaniaHandlerService', 'edit')}. Name: ${error.name}. Message: ${error.message}`);
+      }
+    });
+  }
+
+
+
+  /*public edit(id: string, form: FormGroup): void {
 
     let marka: RejestratorLogowania = {
       rejestratorLogowaniaId: id,
@@ -170,7 +188,7 @@ export class RejestratorLogowaniaHandlerService {
         this.loadingElements = false;
       }
     });
-  }
+  }*/
 
 
 
@@ -202,7 +220,6 @@ export class RejestratorLogowaniaHandlerService {
 
 
   public searchFilter(event: Event) {
-    this.loadingElements = true;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -211,46 +228,12 @@ export class RejestratorLogowaniaHandlerService {
     }
 
     if (this.dataSource.filteredData.length == 0) {
-      this.searchResultInformationStyle = {
-        'display': 'block'
-      };
+      this.searchResultInformationStyle.display = 'block';
     } else {
-      this.searchResultInformationStyle = {
-        'display': 'none'
-      };
+      this.searchResultInformationStyle.display = 'none';
     }
 
-    this.loadingElements = false;
   }
-
-
-
-
-
-
-  /*public isValidCreate(form: FormGroup): boolean {
-    if (
-      form.controls['name'].touched && form.controls['name'].dirty && form.controls['name'].valid
-    ) {
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
-
-
-  public isValidEdit(form: FormGroup): boolean {
-    if (
-      form.controls['name'].valid
-    ) {
-      return false;
-    }
-    else {
-      return true;
-    }
-  }*/
-
 
 
 }

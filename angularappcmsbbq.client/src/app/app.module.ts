@@ -48,13 +48,11 @@ import { AdminModule } from './components/admin/admin.module';
 import { WebModule } from './components/web/web.module';
 import { AccountService } from './services/account/account.service';
 import { AuthInterceptor } from './services/account/auth.interceptor';
-import { GetTextPipe } from './services/get-text.pipe';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    GetTextPipe
+    AppComponent
   ],
   imports: [
     BrowserModule,

@@ -32,7 +32,11 @@ export class RejestratorLogowaniaService {
     return this.http.put<any>(`${this.api}/${id}`, object);
   }
 
+  editInternal(id: string): Observable<any> {
+    return this.http.put<any>(`${this.api}/editInternal/${id}`, null);
+  }
+
   delete(id: string): Observable<any> {
     return this.http.delete<any>(`${this.api}/${id}`);
-  }
 }
+  }
