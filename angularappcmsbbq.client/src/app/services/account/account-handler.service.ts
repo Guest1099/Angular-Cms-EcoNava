@@ -165,7 +165,7 @@ export class AccountHandlerService {
           this.zapisywanie = false;
         } else {
           this.snackBarService.setSnackBar(`${result.message}`);
-          sessionStorage.removeItem('userToken');
+          localStorage.removeItem('userToken');
           this.zapisywanie = false;
         }
 
@@ -218,7 +218,7 @@ export class AccountHandlerService {
             dataWylogowania: dataWylogowania,
             expirationTime: expirationTime,
           };
-          sessionStorage.setItem('sessionModel', JSON.stringify(sessionModel));
+          localStorage.setItem('sessionModel', JSON.stringify(sessionModel));
 
           this.snackBarService.setSnackBar(`Zalogowany użytkownik: ${result.model.email}`);
           this.zalogowanyUserEmail = result.model.email;
@@ -236,7 +236,7 @@ export class AccountHandlerService {
 
         } else {
           this.snackBarService.setSnackBar(`${InfoService.info('Dashboard', 'login')}. ${result.message}.`);
-          sessionStorage.removeItem('sessionModel');
+          localStorage.removeItem('sessionModel');
           this.isLoggedIn = false;
           this.logowanie = false;
           form.reset();
@@ -245,7 +245,7 @@ export class AccountHandlerService {
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('Dashboard', 'login')}. Name: ${error.name}. Message: ${error.message}`);
-        sessionStorage.removeItem('sessionModel');
+        localStorage.removeItem('sessionModel');
         this.logowanie = false;
       }
     });
@@ -256,14 +256,14 @@ export class AccountHandlerService {
   // Metoda odpowiedzialna za wylogowanie
   public wyloguj(): void {
 
-    //sessionStorage.removeItem('sessionModel');
+    //localStorage.removeItem('sessionModel');
     //this.isLoggedIn = false;
     //this.router.navigate(['/']);
 
     this.accountService.logout().subscribe({
       next: () => { 
         // Wyczyszczenie danych z pamięci podręcznej
-        sessionStorage.removeItem('sessionModel');
+        localStorage.removeItem('sessionModel');
         this.isLoggedIn = false;
         //this.clearSessionTimer();
         //this.router.navigate(['/']);
@@ -299,7 +299,7 @@ export class AccountHandlerService {
   // Metoda odpowiedzialna za wylogowanie
   public wyloguj(): void {
 
-    let sessionModel = sessionStorage.getItem('sessionModel');
+    let sessionModel = localStorage.getItem('sessionModel');
     if (sessionModel) {
       let sm = JSON.parse(sessionModel);
 
@@ -316,7 +316,7 @@ export class AccountHandlerService {
       this.accountService.logout().subscribe({
         next: () => {
           // Wyczyszczenie danych z pamięci podręcznej
-          sessionStorage.removeItem('sessionModel');
+          localStorage.removeItem('sessionModel');
           this.isLoggedIn = false;
           //this.router.navigate(['admin']);
           this.router.navigate(['admin']).then(() => location.reload());
@@ -337,7 +337,7 @@ export class AccountHandlerService {
     this.accountService.logout().subscribe({
       next: () => {
         // Wyczyszczenie danych z pamięci podręcznej
-        sessionStorage.removeItem('sessionModel');
+        localStorage.removeItem('sessionModel');
         this.isLoggedIn = false;
         //this.router.navigate(['admin']);
         this.router.navigate(['admin']).then(() => location.reload());
@@ -356,7 +356,7 @@ export class AccountHandlerService {
 
   public isLoggedInGuard(): boolean {
     let result: boolean = false;
-    let sessionModel = sessionStorage.getItem('sessionModel');
+    let sessionModel = localStorage.getItem('sessionModel');
     if (sessionModel) { 
       const sm = JSON.parse(sessionModel);
       if (sm) {
@@ -373,7 +373,7 @@ export class AccountHandlerService {
   public changePassword(form: FormGroup): void {
 
     // pobranie danych użytkownika z sesji
-    let sessionModel = sessionStorage.getItem('sessionModel') || '';
+    let sessionModel = localStorage.getItem('sessionModel') || '';
     if (sessionModel) {
       let sm = JSON.parse(sessionModel);
       let email = sm.model.email;

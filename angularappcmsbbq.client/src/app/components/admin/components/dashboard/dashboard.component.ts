@@ -44,6 +44,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
+    TUTAJ KOD SPRAWZAJĄCY POPRAWNOŚĆ EXPIRATION CZASU
+
+
+
     // formularz logowania
     this.formGroupLogin = this.fb.group({
       emailLogin: ['admin@admin.pl', [Validators.required]],
@@ -70,13 +74,17 @@ export class DashboardComponent implements OnInit {
     this.formGroupRegister.markAllAsTouched();
 
 
-    let sessionModel = sessionStorage.getItem('sessionModel');
+    let sessionModel = localStorage.getItem('sessionModel');
     if (sessionModel) {
       let sm = JSON.parse(sessionModel);
       this.zalogowanyUserEmail = sm.model.email;
       this.isLoggedIn = sm.isLoggedIn;
       this.role = sm.role;
     }
+
+
+    TUTAJ KOD SPRAWDZAJĄCY PORÓNANIE CZASU ZALOGOWANIA DO SYSTEMU............MUSI BYĆ ZAWARTY TAM GDZIE KIEROWANY JEST USER
+    NA DASHBOARD I OD RAZU PRZED ZAŁADOWANIEM STRONY SPRAWDZANY CZY CZAS NIE WYGASŁ
 
   }
 
@@ -123,7 +131,7 @@ export class DashboardComponent implements OnInit {
             dataZalogowania: result.model.dataZalogowania,
             dataWylogowania: result.model.dataWylogowania
           };             
-          sessionStorage.setItem('sessionModel', JSON.stringify(sessionModel));
+          localStorage.setItem('sessionModel', JSON.stringify(sessionModel));
 
           this.zalogowanyUserEmail = result.model.email;
           this.isLoggedIn = true;
@@ -139,7 +147,7 @@ export class DashboardComponent implements OnInit {
           this.snackBarService.setSnackBar(`Zalogowany użytkownik: ${result.model.email}`);
         } else {
           this.snackBarService.setSnackBar(`${InfoService.info('Dashboard', 'login')}. ${result.message}.`);
-          sessionStorage.removeItem('sessionModel');
+          localStorage.removeItem('sessionModel');
           this.isLoggedIn = false;
           this.logowanie = false;
           form.reset();
@@ -148,16 +156,12 @@ export class DashboardComponent implements OnInit {
       }),
       error: (error: Error) => {
         this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('Dashboard', 'login')}. Name: ${error.name}. Message: ${error.message}`);
-        sessionStorage.removeItem('sessionModel');
+        localStorage.removeItem('sessionModel');
         this.logowanie = false;
       }
     });
   }
-
-
-  private setRejestratorLogowania(): void {
-
-  }
+  
 
   private setSessionAndData(): void {
 
@@ -174,7 +178,7 @@ export class DashboardComponent implements OnInit {
     this.accountService.logout().subscribe({
       next: () => {
         // Wyczyszczenie danych z pamięci podręcznej
-        sessionStorage.removeItem('sessionModel');
+        localStorage.removeItem('sessionModel');
         //this.isLoggedIn = false;
         //this.router.navigate(['admin/users']);
         this.router.navigate(['admin']).then(() => location.reload());
