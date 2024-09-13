@@ -29,6 +29,8 @@ export class UsersHandlerService {
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
+  private usersMap: Map<string, string> = new Map<string, string>();
+
   searchFormControl = new FormControl('');
 
   user!: ApplicationUser;
@@ -80,6 +82,10 @@ export class UsersHandlerService {
           this.dataSource.data = result.model as ApplicationUser[];
           this.users = result.model as ApplicationUser[];
 
+          this.users.forEach((f: ApplicationUser) => {
+            this.usersMap.set(f.id, f.email);
+          });
+
           if (this.users.length > 0) {
             this.firstPositionStyle.display = 'none';
           } else {             
@@ -98,6 +104,7 @@ export class UsersHandlerService {
       }
     });
   }
+
 
    
   public getUserByEmail(email: string): ApplicationUser {
@@ -118,6 +125,19 @@ export class UsersHandlerService {
     return this.user;
   }
 
+
+
+
+  public getUserByIdViaUsersMap(userId: string): string {
+    let result = '';
+    if (userId.length > 0) {
+      let userEmail = this.usersMap.get(userId);
+      if (userEmail) {
+        result = userEmail;
+      }
+    }
+    return result;
+  }
 
 
 
@@ -267,7 +287,7 @@ export class UsersHandlerService {
       this.dataSource.paginator.firstPage();
     }
 
-    if (this.dataSource.filteredData.length == 0) {
+    if (this.users.length > 0 && this.dataSource.filteredData.length == 0) {
       this.searchResultInformationStyle.display = 'block';
     } else {
       this.searchResultInformationStyle.display = 'none';

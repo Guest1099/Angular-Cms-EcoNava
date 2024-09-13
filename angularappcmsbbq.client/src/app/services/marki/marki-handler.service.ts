@@ -125,14 +125,6 @@ export class MarkiHandlerService {
   public create(form: FormGroup): void {
     let sessionModel = sessionStorage.getItem('sessionModel');
 
-    alert('create');
-    if (sessionModel) {
-      let token = JSON.parse(sessionModel).model.token;
-      if (token) {
-        alert('create token: ' + token);
-      }
-    }
-
     let marka: Marka = {
       markaId: GuidGenerator.newGuid().toString(),
       name: form.controls['name'].value
@@ -230,7 +222,7 @@ export class MarkiHandlerService {
       this.dataSource.paginator.firstPage();
     }
 
-    if (this.dataSource.filteredData.length == 0) {
+    if (this.marki.length > 0 && this.dataSource.filteredData.length == 0) {
       this.searchResultInformationStyle.display = 'block';
     } else {
       this.searchResultInformationStyle.display = 'none';

@@ -8,6 +8,7 @@ import { RejestratorLogowania } from '../../../../../models/rejestratorLogowania
 import { RejestratorLogowaniaHandlerService } from '../../../../../services/rejestratorLogowania/rejestrator-logowania-handler.service';
 import { RejestratorLogowaniaDeleteComponent } from './rejestrator-logowania-delete/rejestrator-logowania-delete.component';
 import { TablePageCounterService } from '../../../../../services/table-page-counter.service';
+import { UsersHandlerService } from '../../../../../services/users/users-handler.service';
 
 @Component({
   selector: 'app-rejestrator-logowania',
@@ -22,6 +23,7 @@ export class RejestratorLogowaniaComponent implements OnInit, AfterViewInit {
   constructor(
     public accountService: AccountHandlerService,
     public rejestratorLogowaniaService: RejestratorLogowaniaHandlerService,
+    public usersService: UsersHandlerService,
     public tablePageCounterService: TablePageCounterService,
     private dialog: MatDialog
   ) { }
@@ -31,6 +33,23 @@ export class RejestratorLogowaniaComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.rejestratorLogowaniaService.initializeDataSource(this.paginator, this.sort);
+  }
+
+
+  dataWylogowania (dataWylogowania: string): string {
+    if (dataWylogowania.length > 0) {
+      return dataWylogowania;
+    } else {
+      return 'zalogowany';
+    }
+  }
+
+  czasZalogowania (czasZalogowania: string): string {
+    if (czasZalogowania.length > 0) {
+      return czasZalogowania;
+    } else {
+      return '-';
+    }
   }
 
 

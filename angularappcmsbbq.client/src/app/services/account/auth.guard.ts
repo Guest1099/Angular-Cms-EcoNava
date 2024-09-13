@@ -12,8 +12,7 @@ export class AuthGuard implements CanActivate {
     private accountServiceHandler: AccountHandlerService,
     private router: Router
   ) { }
-
-  private hasRole: boolean = false;
+   
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
@@ -21,12 +20,15 @@ export class AuthGuard implements CanActivate {
 
     let sessionModel = sessionStorage.getItem('sessionModel');
     if (sessionModel) {
-      let sm = JSON.parse(sessionModel); 
-      let role = sm.role;
+      let sm = JSON.parse(sessionModel);
+      if (sm) {
+        let role = sm.role;
+        let isLoggedIn = sm.isLoggedIn;
 
-      // Sprawdź, czy użytkownik jest zalogowany i ma odpowiednią rolę
-      if (this.accountServiceHandler.isLoggedInInterceptor() && expectedRoles.includes(role)) {
-        return true;
+        // Sprawdź, czy użytkownik jest zalogowany i ma odpowiednią rolę 
+        if (this.accountServiceHandler.isLoggedInGuard() && expectedRoles.includes(role)) {
+          return true;
+        }
       }
     }
 

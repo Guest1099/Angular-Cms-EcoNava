@@ -24,25 +24,20 @@ export class AccountHandlerService {
     private router: Router,
     private snackBarService: SnackBarService,
   ) {
-    //this.lastActivityTime = Date.now();
   } 
 
   private user!: ApplicationUser;
   public formGroup!: FormGroup;
   public zalogowanyUser!: ApplicationUser;
   public zalogowanyUserEmail: string | undefined = '';
-  public roles !: any;
   public role: string = '';
+  public isLoggedIn: boolean = false;
   public logowanie: boolean = false;
   public rejestrowanie: boolean = false;
   public zapisywanie: boolean = false;
 
-/*
-  private lastActivityTime !: number;
-  private time = 10 * 60 * 50; // 1 min
-  //private time = 10 * 60 * 1000; // 10 min
-  private intervalId: any;
-*/
+
+
 
   // Pobiera użytkownika poprzez email
   public getUserByEmail(email: string): ApplicationUser {
@@ -353,52 +348,24 @@ export class AccountHandlerService {
     });
 
   }
+ 
 
 
 
 
-/*
-  private startSessionTimer(): void {
-    this.clearSessionTimer();
-    this.intervalId = setInterval(() => {
-      if (Date.now() - this.lastActivityTime >= this.time) {
-        this.wyloguj();
-      }
-    }, this.time)
-  }
 
-  private clearSessionTimer() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    }
-  }
-
-  public refreshLastActivityTime(): void {
-    this.lastActivityTime = Date.now();
-  }
-*/
-
-  public isLoggedIn: boolean = false;
-  public isLoggedInInterceptor(): boolean {
+  public isLoggedInGuard(): boolean {
+    let result: boolean = false;
     let sessionModel = sessionStorage.getItem('sessionModel');
-    if (sessionModel) {
-      //this.isLoggedIn = true;
+    if (sessionModel) { 
       const sm = JSON.parse(sessionModel);
-
-      // pobranie pierwszej roli użytkownika 
-      this.role = sm.role;
-
-
-      return true;
-    } else {
-      let sessionModel = sessionStorage.getItem('sessionModel') || '';
-      if (sessionModel) {
-        let sm = JSON.parse(sessionModel);
-        sm.isLoggedIn = false;
-      }
-      return false;
+      if (sm) {
+        // pobranie pierwszej roli użytkownika 
+        this.role = sm.role;
+        result = true;
+      }  
     }
+    return result;
   }
 
 
@@ -441,44 +408,7 @@ export class AccountHandlerService {
     }
   }
 
-
-  getUserRole: string = '';
-  getUserRoles(): void {
-    /*this.accountService.getUserRoles(this.zalogowanyUserEmail).subscribe((n: TaskResult<string[]>) => {
-      if (n.success) {
-        // pobiera wszystkie role użytkownika
-        this.roles = n.model;
-        if (n.model.length > 0) {
-          // pobiera pierwszą rolę użytkownika
-          this.getUserRole = n.model[0];
-          alert(n.model);
-        }
-      }
-    });*/
-  }
-
-  /*
-    uInRole: boolean = false;
-    userInRole(roleName: string): boolean {
-      this.accountService.userInRole(this.zalogowanyUserEmail, roleName).subscribe((n: TaskResult<boolean>) => {
-        this.uInRole = n.success;
-      });
-      return this.uInRole;
-    }
-  */
-
-
-
-
-  /*public searchFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }*/
-
+   
 
 
 

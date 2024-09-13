@@ -232,7 +232,7 @@ export class CategoriesHandlerService {
     }
 
 
-    if (this.dataSource.filteredData.length == 0) {
+    if (this.categories.length > 0 && this.dataSource.filteredData.length == 0) {
       this.searchResultInformationStyle.display = 'block';
     } else {
       this.searchResultInformationStyle.display = 'none';

@@ -237,7 +237,7 @@ export class SubcategoriesHandlerService {
       this.dataSource.paginator.firstPage();
     }
 
-    if (this.dataSource.filteredData.length == 0) {
+    if (this.subcategories.length > 0 && this.dataSource.filteredData.length == 0) {
       this.searchResultInformationStyle.display = 'block';
     } else {
       this.searchResultInformationStyle.display = 'none';

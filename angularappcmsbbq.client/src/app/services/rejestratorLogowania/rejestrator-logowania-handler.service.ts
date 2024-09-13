@@ -14,11 +14,13 @@ import { InfoService } from '../InfoService';
 })
 export class RejestratorLogowaniaHandlerService {
 
-  displayedColumns: string[] = ['lp', 'dataZalogowania', 'dataWylogowania', 'userId', 'action'];
+  displayedColumns: string[] = ['lp', 'dataZalogowania', 'dataWylogowania', 'czasZalogowania', 'userId', 'action'];
   dataSource = new MatTableDataSource<RejestratorLogowania>();
 
   @ViewChild(MatSort) sort !: MatSort;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
+
+  private usersMap: Map<string, string> = new Map<string, string>();
 
   searchFormControl = new FormControl('');
 
@@ -79,6 +81,7 @@ export class RejestratorLogowaniaHandlerService {
           // pobranie danych 
           this.dataSource.data = result.model as RejestratorLogowania[];
           this.rejestratorLogowan = result.model as RejestratorLogowania[];
+           
 
           if (this.rejestratorLogowan.length > 0) {
             this.firstPositionStyle.display = 'none';
@@ -227,13 +230,16 @@ export class RejestratorLogowaniaHandlerService {
       this.dataSource.paginator.firstPage();
     }
 
-    if (this.dataSource.filteredData.length == 0) {
+    if (this.rejestratorLogowan.length > 0 && this.dataSource.filteredData.length == 0) {
       this.searchResultInformationStyle.display = 'block';
     } else {
       this.searchResultInformationStyle.display = 'none';
     }
 
   }
+
+  
+   
 
 
 }

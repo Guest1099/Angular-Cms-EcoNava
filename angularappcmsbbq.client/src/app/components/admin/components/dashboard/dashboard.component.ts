@@ -20,7 +20,6 @@ import { Guid } from 'guid-typescript';
 })
 export class DashboardComponent implements OnInit {
 
-
   formGroupLogin !: FormGroup;
   formGroupRegister !: FormGroup;
   navigation!: any;
@@ -104,7 +103,9 @@ export class DashboardComponent implements OnInit {
       email: email,
       password: password,
       token: '',
-      role: ''
+      role: '',
+      dataZalogowania: '',
+      dataWylogowania: ''
     };
 
     this.logowanie = true;
@@ -112,30 +113,17 @@ export class DashboardComponent implements OnInit {
       next: ((result: TaskResult<LoginViewModel>) => {
 
         if (result.success) {
-
-          // automatyczne wylogowanie
-
-          // czas po jakim użytkownik ma się wylogować w milisekundach, minuta to 60000 ms, 10 * 60 * 10 = 60000
-          // let expirationTime = 10000; // 10 sek
-          // let expirationTime = 60000; // 1 min
-          let expirationTime = 600000; // 10 min
-          let dataZalogowania = new Date();
-          let dataAutomatycznegoWylogowania = dataZalogowania.setMilliseconds(expirationTime);
-
-            
-
-         
+           
           // zapisanie w sesji zalogowanego użytkownika
+          // zapisanie danych w sesji na temat zalogowanego użytkownika
           let sessionModel = {
             model: result.model as LoginViewModel,
             isLoggedIn: true,
             role: result.model.role,
-            dataZalogowania: dataZalogowania,
-            dataAutomatycznegoWylogowania: dataAutomatycznegoWylogowania,
-            expirationTime: expirationTime
+            dataZalogowania: result.model.dataZalogowania,
+            dataWylogowania: result.model.dataWylogowania
           };             
           sessionStorage.setItem('sessionModel', JSON.stringify(sessionModel));
-
 
           this.zalogowanyUserEmail = result.model.email;
           this.isLoggedIn = true;

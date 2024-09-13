@@ -23,10 +23,9 @@ export class AuthInterceptor implements HttpInterceptor {
         let dataWylogowania = sm.dataWylogowania;
         if (dataWylogowania) {
           setInterval(() => {
-            // Sprawdź, czy upłynęło więcej niż 30 minut od ostatniej aktywności 
+            // Jeżeli czas obecny jest większy od daty wylogowania wtedy następuje wylogowanie
             if (Date.now() >= dataWylogowania) {
               this.accountService.wyloguj();
-              sm.dataWylogowania = null;
               sessionStorage.setItem('sessionModel', JSON.stringify(sm));
             }
           }, this.timerClock);
