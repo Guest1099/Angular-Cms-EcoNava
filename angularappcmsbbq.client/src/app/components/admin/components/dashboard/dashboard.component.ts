@@ -42,10 +42,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
 
-  ngOnInit(): void {
-
-    TUTAJ KOD SPRAWZAJĄCY POPRAWNOŚĆ EXPIRATION CZASU
-
+  ngOnInit(): void { 
 
 
     // formularz logowania
@@ -81,10 +78,6 @@ export class DashboardComponent implements OnInit {
       this.isLoggedIn = sm.isLoggedIn;
       this.role = sm.role;
     }
-
-
-    TUTAJ KOD SPRAWDZAJĄCY PORÓNANIE CZASU ZALOGOWANIA DO SYSTEMU............MUSI BYĆ ZAWARTY TAM GDZIE KIEROWANY JEST USER
-    NA DASHBOARD I OD RAZU PRZED ZAŁADOWANIEM STRONY SPRAWDZANY CZY CZAS NIE WYGASŁ
 
   }
 
