@@ -13,23 +13,22 @@
             Wprowadź dane, które mają być zmienione
         </p>
 
-        <div mat-dialog-content>
-            <form [formGroup]="formGroup" class="w-500px db">
+        <form [formGroup]="formGroup" class="db formGroup">
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Name</mat-label>
-                    <input matInput formControlName="name" />
-                </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" />
+            </mat-form-field>
 
 
-            </form>
-        </div>
+        </form>
 
-        <div class="df-sb bottom-buttons"> 
-                <button mat-raised-button color="warn" mat-dialog-close [routerLink]="['../../../marki']">
-                    <mat-icon>cancel</mat-icon>
-                    Wstecz
-                </button> 
+
+        <div class="df-sb bottom-buttons">
+            <button mat-raised-button color="warn" mat-dialog-close [routerLink]="['../../../marki']">
+                <mat-icon>cancel</mat-icon>
+                Wstecz
+            </button>
 
             <div class="db centerxy">
                 <button mat-raised-button

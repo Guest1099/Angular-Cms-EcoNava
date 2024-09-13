@@ -123,6 +123,15 @@ export class MarkiHandlerService {
 
 
   public create(form: FormGroup): void {
+    let sessionModel = sessionStorage.getItem('sessionModel');
+
+    alert('create');
+    if (sessionModel) {
+      let token = JSON.parse(sessionModel).model.token;
+      if (token) {
+        alert('create token: ' + token);
+      }
+    }
 
     let marka: Marka = {
       markaId: GuidGenerator.newGuid().toString(),

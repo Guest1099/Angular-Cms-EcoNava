@@ -9,16 +9,14 @@
         Wprowadź nazwę aby dodać nową pozycję
     </p>
 
-    <div mat-dialog-content>
-        <form [formGroup]="formGroup" class="w-500px db">
+    <form [formGroup]="formGroup" class="db formGroup">
 
-            <mat-form-field appearance="outline">
-                <mat-label>Nazwa</mat-label>
-                <input matInput formControlName="name" />
-            </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Nazwa</mat-label>
+            <input matInput formControlName="name" />
+        </mat-form-field>
 
-        </form>
-    </div>
+    </form>
 
 
 

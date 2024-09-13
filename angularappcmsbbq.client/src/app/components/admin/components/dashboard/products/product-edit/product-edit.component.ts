@@ -76,7 +76,7 @@ export class ProductEditComponent implements OnInit {
                    
                   let subcategoryId = this.product.subcategoryId == null ? '' : this.product.subcategoryId;;
                   let subsubcategoryId = this.product.subsubcategoryId == null ? '' : this.product.subsubcategoryId;
-                   
+                  
 
                   this.getAllMarki();
                   this.getAllCategories();                  

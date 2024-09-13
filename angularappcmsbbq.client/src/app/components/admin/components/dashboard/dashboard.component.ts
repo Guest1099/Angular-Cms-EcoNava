@@ -37,7 +37,6 @@ export class DashboardComponent implements OnInit {
     private fb: FormBuilder,
     public accountHandlerService: AccountHandlerService,
     public roleService: RolesHandlerService,
-    public rejestratorLogowaniaService: RejestratorLogowaniaHandlerService,
     private router: Router,
     private snackBarService: SnackBarService,
     public accountService: AccountService,
@@ -80,28 +79,19 @@ export class DashboardComponent implements OnInit {
       this.role = sm.role;
     }
 
-    this.testData = new Date().toString();
-    this.testData2 = new Date().toString();
   }
-  testData: string = '';
-  testData2: string = '';
-
 
   toggleSidenav(): void {
     this.isSidenavOpen = !this.isSidenavOpen;
   }
 
 
-  linkName: string = '\\';
+  linkName: string = '';
   getLinkName(linkName: string): void {
-    this.linkName = `\\${linkName}`;
+    this.linkName = `${linkName}`;
   }
-   
 
-/*
-  rejestratorLogowania !: RejestratorLogowania;
-  rejestratorLogowaniaId: string = '';
-*/
+
   public login(form: FormGroup): void {
 
     // Pobranie wartości z kontrolek
@@ -122,7 +112,9 @@ export class DashboardComponent implements OnInit {
       next: ((result: TaskResult<LoginViewModel>) => {
 
         if (result.success) {
-           
+
+          // automatyczne wylogowanie
+
           // czas po jakim użytkownik ma się wylogować w milisekundach, minuta to 60000 ms, 10 * 60 * 10 = 60000
           // let expirationTime = 10000; // 10 sek
           // let expirationTime = 60000; // 1 min
@@ -130,27 +122,7 @@ export class DashboardComponent implements OnInit {
           let dataZalogowania = new Date();
           let dataAutomatycznegoWylogowania = dataZalogowania.setMilliseconds(expirationTime);
 
-           
-          // rejestrator logowania
-/*
-          this.rejestratorLogowaniaId = GuidGenerator.newGuid().toString();
-          this.rejestratorLogowania.rejestratorLogowaniaId = this.rejestratorLogowaniaId;
-          this.rejestratorLogowania.dataZalogowania = dataZalogowania.toString();
-          this.rejestratorLogowania.dataWylogowania = '';
-          this.rejestratorLogowania.userId = result.model.userId;
-          this.rejestratorLogowaniaService.create(this.rejestratorLogowania);
-*/
-
-/*
-          let rejestratorLogowaniaId = GuidGenerator.newGuid().toString();
-          let rejestratorLogowania: RejestratorLogowania = {
-            rejestratorLogowaniaId: rejestratorLogowaniaId,
-            dataZalogowania: new Date().toString(),
-            dataWylogowania: '',
-            userId: result.model.userId
-          };
-          this.rejestratorLogowaniaService.create(rejestratorLogowania); 
-*/
+            
 
          
           // zapisanie w sesji zalogowanego użytkownika
@@ -160,8 +132,7 @@ export class DashboardComponent implements OnInit {
             role: result.model.role,
             dataZalogowania: dataZalogowania,
             dataAutomatycznegoWylogowania: dataAutomatycznegoWylogowania,
-            expirationTime: expirationTime,
-            //rejestratorLogowaniaId: rejestratorLogowaniaId
+            expirationTime: expirationTime
           };             
           sessionStorage.setItem('sessionModel', JSON.stringify(sessionModel));
 

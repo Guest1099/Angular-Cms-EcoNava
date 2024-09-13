@@ -4031,12 +4031,23 @@ ul {
 
 
 .header {
-  font-size: 16px;
+  font-size: 26px;
+  font-weight: bold;
   margin-bottom: 20px;
 }
 
+.formGroup {
+    width: 500px;
+    margin-top: 40px;
+}
+
+.divContainer {
+    margin-bottom: 50px;
+    margin-top: 40px;
+}
+
 .matError {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .spinner {

@@ -13,30 +13,29 @@
             Wprowadź dane, które mają być zmienione
         </p>
 
-        <div mat-dialog-content>
-            <form [formGroup]="formGroup" class="w-500px db">
+        <form [formGroup]="formGroup" class="db formGroup">
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Name</mat-label>
-                    <input matInput formControlName="name" />
-                </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" />
+            </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Full name</mat-label>
-                    <input matInput formControlName="fullName" />
-                </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Full name</mat-label>
+                <input matInput formControlName="fullName" />
+            </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Category</mat-label>
-                    <mat-select formControlName="categoryId">
-                        <mat-option *ngFor="let category of categories" [value]="category.categoryId">
-                            {{ category.name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Category</mat-label>
+                <mat-select formControlName="categoryId">
+                    <mat-option *ngFor="let category of categories" [value]="category.categoryId">
+                        {{ category.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
 
-            </form>
-        </div>
+        </form>
+
 
         <div class="df-sb bottom-buttons">
             <button mat-raised-button color="warn" mat-dialog-close [routerLink]="['../../../subcategories']" class="mr-10">

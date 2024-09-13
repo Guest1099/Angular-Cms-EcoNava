@@ -10,44 +10,43 @@
         Wprowadź nazwę aby dodać nową pozycję
     </p>
 
-    <div mat-dialog-content>
-        <form [formGroup]="formGroup" class="w-500px db">
 
-            <mat-form-field appearance="outline">
-                <mat-label>Nazwa</mat-label>
-                <input matInput formControlName="name" />
-            </mat-form-field>
+    <form [formGroup]="formGroup" class="db formGroup">
 
-            <mat-form-field appearance="outline">
-                <mat-label>Pełna nazwa</mat-label>
-                <input matInput formControlName="fullName" />
-            </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Nazwa</mat-label>
+            <input matInput formControlName="name" />
+        </mat-form-field>
 
-
-
-            <mat-form-field appearance="outline">
-                <mat-label>Category</mat-label>
-                <mat-select formControlName="categoryId" (selectionChange)="onOptionSelectedCategory($event)">
-                    <mat-option *ngFor="let category of categories" [value]="category.categoryId">
-                        {{ category.name }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Pełna nazwa</mat-label>
+            <input matInput formControlName="fullName" />
+        </mat-form-field>
 
 
 
-            <mat-form-field appearance="outline">
-                <mat-label>Subcategory</mat-label>
-                <mat-select formControlName="subcategoryId">
-                    <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.subcategoryId">
-                        {{ subcategory.name }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="categoryId" (selectionChange)="onOptionSelectedCategory($event)">
+                <mat-option *ngFor="let category of categories" [value]="category.categoryId">
+                    {{ category.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
 
-        </form>
-    </div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Subcategory</mat-label>
+            <mat-select formControlName="subcategoryId">
+                <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.subcategoryId">
+                    {{ subcategory.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+    </form>
 
 
 

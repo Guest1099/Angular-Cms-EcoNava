@@ -281,7 +281,7 @@ export class AccountHandlerService {
     });
   }*/
 
-
+/*
   // Metoda służąca zarejestrowaniu zalogowanego użytkownika w bazie, loguje się czas zalogowania oraz czas wylogowania
   private rejestratorLogowaniaEditInternal (id: string): void {
     this.rejestratorLogowaniaService.editInternal(id).subscribe({
@@ -298,8 +298,9 @@ export class AccountHandlerService {
       }
     });
   }
+*/
 
-
+/*
   // Metoda odpowiedzialna za wylogowanie
   public wyloguj(): void {
 
@@ -308,10 +309,10 @@ export class AccountHandlerService {
       let sm = JSON.parse(sessionModel);
 
       // zmodyfikowanie czasu zalogowania użytkownika
-      /*let rejestratorLogowaniaId = sm.model.rejestratorLogowaniaId;
+      *//*let rejestratorLogowaniaId = sm.model.rejestratorLogowaniaId;
       if (rejestratorLogowaniaId) {
         //this.rejestratorLogowaniaService.editInternal(rejestratorLogowaniaId);
-      }*/
+      }*//*
       alert(sm.model.dataZalogowania);
 
     }
@@ -331,6 +332,28 @@ export class AccountHandlerService {
       });
     
   }
+*/
+
+
+
+  // Metoda odpowiedzialna za wylogowanie
+  public wyloguj(): void {
+    // wylogowanie użytkownika
+    this.accountService.logout().subscribe({
+      next: () => {
+        // Wyczyszczenie danych z pamięci podręcznej
+        sessionStorage.removeItem('sessionModel');
+        this.isLoggedIn = false;
+        //this.router.navigate(['admin']);
+        this.router.navigate(['admin']).then(() => location.reload());
+      },
+      error: (error: Error) => {
+        this.snackBarService.setSnackBar(`Brak połączenia z bazą danych. ${InfoService.info('AccountHandlerService', 'wyloguj')}. Name: ${error.name}. Message: ${error.message}`);
+      }
+    });
+
+  }
+
 
 
 
